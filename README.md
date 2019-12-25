@@ -1,6 +1,6 @@
 # HolivarChat
 
-Create a file named .env in the root folder of the project, and add the following code:
+Create a file named .env in the /backend folder of the project, and add the following code:
 
 ```
 # Set to production when deploying to production
