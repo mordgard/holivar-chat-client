@@ -1,8 +1,5 @@
 import mongoose from "mongoose";
 import { logger } from "../utils";
-import { topicSchema } from "./schemas/topicSchema";
-
-const Topic = mongoose.model("Topic", topicSchema);
 
 const connectToDb = async (): Promise<any> => {
   try {
