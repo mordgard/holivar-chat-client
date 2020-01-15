@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import express from "express";
 
 import { connectToDb } from "./database/db";
-import { validateEnv } from "./utils/validateEnv";
+import { logger, validateEnv } from "./utils";
 
 validateEnv();
 dotenv.config();
@@ -17,6 +17,5 @@ connectToDb();
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.listen(PORT, () => {
-  // tslint:disable-next-line:no-console
-  console.log(`Server started at localhost:${PORT}`);
+  logger.info(`Server started at localhost:${PORT}`);
 });

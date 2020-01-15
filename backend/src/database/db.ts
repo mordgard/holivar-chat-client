@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { logger } from "../utils";
 import { topicSchema } from "./schemas/topicSchema";
 
 const Topic = mongoose.model("Topic", topicSchema);
@@ -7,13 +8,11 @@ const connectToDb = async (): Promise<any> => {
   try {
     await mongoose.connect(
       `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}${process.env.MONGO_PATH}`,
-      { useNewUrlParser: true }
+      { useNewUrlParser: true, useUnifiedTopology: true }
     );
-    // tslint:disable-next-line:no-console
-    console.log("Connected");
+    logger.info("Connected to db");
   } catch (err) {
-    // tslint:disable-next-line:no-console
-    console.log("Connection to database failed", err);
+    logger.error("Connection to db failed", err);
   }
 };
 
