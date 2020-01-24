@@ -6,7 +6,7 @@ function validateEnv() {
     MONGO_PATH: str(),
     MONGO_USER: str(),
     NODE_ENV: str(),
-    SERVER_PORT: port()
+    PORT: port()
   });
 }
 

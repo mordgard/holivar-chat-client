@@ -10,8 +10,7 @@ import { Topic } from "./database/models/topic";
 validateEnv();
 dotenv.config();
 
-const { SERVER_PORT } = process.env;
-const PORT = SERVER_PORT || 8080;
+const PORT = process.env.PORT || 8080;
 const app: express.Application = express();
 
 connectToDb();
@@ -23,9 +22,8 @@ app.listen(PORT, () => {
 });
 
 app.get("/topics", async (req, res) => {
-  const topics = await Topic.find({});
-
   try {
+    const topics = await Topic.find({});
     res.send(topics);
   } catch (err) {
     res.status(500).send(err);
