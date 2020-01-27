@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
+import { config } from "../config";
 import { logger } from "../utils";
 
 const connectToDb = async (): Promise<any> => {
   try {
-    await mongoose.connect(
-      `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}${process.env.MONGO_PATH}`,
-      { useNewUrlParser: true, useUnifiedTopology: true }
-    );
+    await mongoose.connect(config.mongoUri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
     logger.info("Connected to db");
   } catch (err) {
     logger.error("Connection to db failed", err);

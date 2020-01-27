@@ -1,25 +1,15 @@
 import bodyParser from "body-parser";
-import dotenv from "dotenv";
 import express from "express";
-
 import { connectToDb } from "./database/db";
-import { logger, validateEnv } from "./utils";
+import { logger } from "./utils";
 
 import { Topic } from "./database/models/topic";
 
-validateEnv();
-dotenv.config();
-
-const PORT = process.env.PORT || 8080;
 const app: express.Application = express();
 
 connectToDb();
 
 app.use(bodyParser.urlencoded({ extended: true }));
-
-app.listen(PORT, () => {
-  logger.info(`Server started at localhost:${PORT}`);
-});
 
 app.get("/topics", async (req, res) => {
   try {
@@ -66,3 +56,5 @@ app.patch("/topics/:id", async (req, res) => {
     logger.error(err.message);
   }
 });
+
+export { app };

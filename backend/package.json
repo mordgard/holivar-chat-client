@@ -7,7 +7,7 @@
     "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
     "build": "tsc",
     "prestart": "yarn build",
-    "start": "ts-node src/app.ts",
+    "start": "ts-node src/index.ts",
     "dev": "nodemon"
   },
   "repository": "https://github.com/mordgard/HolivarChat",
@@ -21,7 +21,8 @@
     "mongoose": "^5.8.4",
     "path": "^0.12.7",
     "uuid": "^3.3.3",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "yup": "^0.28.0"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.1",
@@ -30,6 +31,7 @@
     "@types/lodash": "^4.14.149",
     "@types/mongoose": "^5.5.41",
     "@types/node": "^13.1.0",
+    "@types/yup": "^0.26.27",
     "envalid": "^6.0.0",
     "nodemon": "^2.0.2",
     "ts-node": "^8.5.4",

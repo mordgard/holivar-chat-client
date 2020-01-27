@@ -10,5 +10,5 @@
     "NODE_ENV": "development"
   },
   "ext": "js,json,ts",
-  "exec": "ts-node src/app.ts"
+  "exec": "ts-node src/index.ts"
 }
