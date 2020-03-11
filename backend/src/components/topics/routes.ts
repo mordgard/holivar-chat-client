@@ -43,7 +43,10 @@ router.put(
       const { id } = req.params;
       const { title } = req.body;
       const topic = await topicsService.updateTopic(id, title);
-      res.status(200).send(topic);
+      if (topic) {
+        res.status(200).send(topic);
+      }
+      res.sendStatus(404);
     } catch (error) {
       res.status(500).send(error);
       logger.error(error.message);
@@ -58,10 +61,10 @@ router.delete(
     try {
       const { id } = req.params;
       const topic = await topicsService.deleteTopic(id);
-      if (!topic) {
-        res.sendStatus(404);
+      if (topic) {
+        res.status(200).send(topic);
       }
-      res.status(200).send(topic);
+      res.sendStatus(404);
     } catch (error) {
       res.status(500).send(error);
       logger.error(error.message);

@@ -16,7 +16,6 @@ const validateTopics = {
       await addTopicSchema.validate(req.body, { abortEarly: false });
       next();
     } catch (error) {
-      logger.error("Validation failed: ", error);
       res.status(400).json({ error });
     }
   },
@@ -27,7 +26,6 @@ const validateTopics = {
       await updateTopicSchema.validate({ id, title }, { abortEarly: false });
       next();
     } catch (error) {
-      logger.error("Validation failed: ", error);
       res.status(400).json({ error });
     }
   },
@@ -37,7 +35,6 @@ const validateTopics = {
       await deleteTopicSchema.validate({ id }, { abortEarly: false });
       next();
     } catch (error) {
-      logger.error("Validation failed: ", error);
       res.send(400).json({ error });
     }
   }
