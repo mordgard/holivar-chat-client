@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { logger } from "../../utils/";
 import {
   addTopicSchema,
   deleteTopicSchema,
@@ -7,32 +6,33 @@ import {
 } from "./schemas";
 
 const validateTopics = {
-  getTopics(req: Request, res: Response, next: NextFunction) {
+  get(req: Request, res: Response, next: NextFunction) {
     // 🤔
     next();
   },
-  async addTopic(req: Request, res: Response, next: NextFunction) {
+  async add(req: Request, res: Response, next: NextFunction) {
     try {
-      await addTopicSchema.validate(req.body, { abortEarly: false });
-      next();
-    } catch (error) {
-      res.status(400).json({ error });
-    }
-  },
-  async updateTopic(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { id } = req.params;
       const { title } = req.body;
-      await updateTopicSchema.validate({ id, title }, { abortEarly: false });
+      await addTopicSchema.validate({ title }, { abortEarly: false });
       next();
     } catch (error) {
       res.status(400).json({ error });
     }
   },
-  async deleteTopic(req: Request, res: Response, next: NextFunction) {
+  async update(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params;
-      await deleteTopicSchema.validate({ id }, { abortEarly: false });
+      const { topicId } = req.params;
+      const { title } = req.body;
+      await updateTopicSchema.validate({ topicId, title }, { abortEarly: false });
+      next();
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  },
+  async delete(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { topicId } = req.params;
+      await deleteTopicSchema.validate({ topicId }, { abortEarly: false });
       next();
     } catch (error) {
       res.send(400).json({ error });

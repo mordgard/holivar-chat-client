@@ -6,14 +6,14 @@ const addTopicSchema = Yup.object().shape({
 
 const updateTopicSchema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
-  id: Yup.string()
-    .required("Id is required")
+  topicId: Yup.string()
+    .required("topicId is required")
     .min(24)
 });
 
 const deleteTopicSchema = Yup.object().shape({
-  id: Yup.string()
-    .required("Id is required")
+  topicId: Yup.string()
+    .required("topicId is required")
     .min(24)
 });
 
