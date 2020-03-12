@@ -1,5 +1,4 @@
-import { Request, Response, Router } from "express";
-import { logger } from "../../utils";
+import { Router } from "express";
 import { topicsService } from "./service";
 import { validateTopics } from "./validator";
 
