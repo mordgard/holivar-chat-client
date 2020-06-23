@@ -13,7 +13,7 @@ const Component: FC<Props> = ({ topics }) => {
     <Box display="flex" flexGrow={1}>
       <Grid container>
         {topics.map(({ title }) => (
-          <Grid key={title} item xs={12} sm={6}>
+          <Grid key={title} item xs={12} sm={6} lg={3}>
             <Box p={2}>
               <Topic title={title} />
             </Box>
