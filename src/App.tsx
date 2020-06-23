@@ -1,16 +1,19 @@
 import React from "react";
-import { Header } from "./components/header";
-import { useSocket } from "./web-socket";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { Header } from "./modules/header";
+import { Topics } from "./modules/topics";
 
 function App() {
-  useSocket();
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <Header />
-      </header>
-    </div>
+    <>
+      <CssBaseline />
+      <div className="App">
+        <header className="App-header">
+          <Header />
+          <Topics />
+        </header>
+      </div>
+    </>
   );
 }
 
