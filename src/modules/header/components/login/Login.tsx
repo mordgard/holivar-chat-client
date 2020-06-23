@@ -30,7 +30,7 @@ const Login: FC<Props> = ({ open, onClose, onSubmit }) => {
         <DialogContentText>To be able to create topics, you need to log in</DialogContentText>
         <Formik onSubmit={onSubmit} initialValues={initialValues}>
           <Form>
-            <TextField autoFocus margin="dense" label="Email Address" type="email" fullWidth />
+            <TextField margin="dense" label="Email Address" type="email" fullWidth />
             <TextField margin="dense" label="Password" type="password" fullWidth />
           </Form>
         </Formik>

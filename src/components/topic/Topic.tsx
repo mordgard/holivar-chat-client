@@ -5,7 +5,6 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import cn from "classnames";
 
 const useStyles = makeStyles({
   root: {
@@ -18,14 +17,13 @@ const useStyles = makeStyles({
 
 interface Props {
   title: string;
-  className?: string;
 }
 
-const Topic: FC<Props> = ({ title, className }) => {
+const Topic: FC<Props> = ({ title }) => {
   const classes = useStyles();
 
   return (
-    <Card className={cn(classes.root, className)}>
+    <Card className={classes.root}>
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
           Do you agree?
