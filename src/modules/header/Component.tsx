@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -6,6 +6,8 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+
+import { Login } from "./components/login/Login";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,7 +23,14 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Component = () => {
+interface Props {
+  open: boolean;
+  onOpenLogin: () => void;
+  onClose: () => void;
+  onSubmit: () => void;
+}
+
+const Component: FC<Props> = ({ open, onOpenLogin, onClose, onSubmit }) => {
   const classes = useStyles();
 
   return (
@@ -34,9 +43,12 @@ const Component = () => {
           <Typography variant="h6" className={classes.title}>
             HolivarChat
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button onClick={onOpenLogin} color="inherit">
+            Login
+          </Button>
         </Toolbar>
       </AppBar>
+      <Login open={open} onClose={onClose} onSubmit={onSubmit} />
     </div>
   );
 };

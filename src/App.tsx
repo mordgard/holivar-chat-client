@@ -7,12 +7,8 @@ function App() {
   return (
     <>
       <CssBaseline />
-      <div className="App">
-        <header className="App-header">
-          <Header />
-          <Topics />
-        </header>
-      </div>
+      <Header />
+      <Topics />
     </>
   );
 }
