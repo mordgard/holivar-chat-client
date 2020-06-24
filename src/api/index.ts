@@ -8,6 +8,10 @@ const PREFIX = "/api/v1";
 const apiService: Api = {
   topics: {
     getTopics: () => api.get(`${PREFIX}/topics`)
+  },
+  auth: {
+    login: (email, password) => api.post(`${PREFIX}/login`, { email, password }),
+    signup: (email, password) => api.post(`${PREFIX}/users/`, { email, password })
   }
 };
 

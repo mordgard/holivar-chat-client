@@ -1,16 +1,16 @@
-import React from "react";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { Header } from "./modules/header";
-import { Topics } from "./modules/topics";
+import React, { useState } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import { AuthContext, context } from "./modules/auth";
+import { Routes } from "./Routes";
 
-function App() {
+const App = () => {
   return (
-    <>
-      <CssBaseline />
-      <Header />
-      <Topics />
-    </>
+    <AuthContext.Provider value={context}>
+      <Router>
+        <Routes />
+      </Router>
+    </AuthContext.Provider>
   );
-}
+};
 
 export default App;
