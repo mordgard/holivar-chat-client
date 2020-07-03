@@ -28,6 +28,7 @@ const Login: FC<Props> = ({ open, onClose, onSubmit }) => {
     [email, password, onSubmit]
   );
 
+  // TODO: figure out why it drops an error "findDOMNode is deprecated in StrictMode."
   return (
     <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
       <form onSubmit={handleSubmit}>
