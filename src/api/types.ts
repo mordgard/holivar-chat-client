@@ -7,6 +7,6 @@ export interface Api {
   };
   auth: {
     login: (email: string, password: string) => Promise<AxiosResponse<{ data: string }>>;
-    signup: (email: string, password: string) => Promise<AxiosResponse<{ data: string }>>;
+    becomeUser: (email: string, password: string) => Promise<AxiosResponse<{ data: string }>>;
   };
 }

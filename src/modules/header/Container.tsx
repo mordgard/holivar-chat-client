@@ -5,7 +5,7 @@ import { Component } from "./Component";
 
 const Container = () => {
   const [isLoginOpen, setIsLoginOpen] = useState<boolean>(false);
-  const [isSignUpOpen, setIsSignUpOpen] = useState<boolean>(false);
+  const [isBecomeUserOpen, setIsBecomeUserOpen] = useState<boolean>(false);
 
   const authContext = useContext(AuthContext);
 
@@ -14,8 +14,8 @@ const Container = () => {
   const handleOpenLogin = useCallback(() => setIsLoginOpen(true), []);
   const handleCloseLogin = useCallback(() => setIsLoginOpen(false), []);
 
-  const handleOpenSignUp = useCallback(() => setIsSignUpOpen(true), []);
-  const handleCloseSignUp = useCallback(() => setIsSignUpOpen(false), []);
+  const handleOpenBecomeUser = useCallback(() => setIsBecomeUserOpen(true), []);
+  const handleCloseBecomeUser = useCallback(() => setIsBecomeUserOpen(false), []);
 
   const handleLogin = useCallback(
     async (email, password) => {
@@ -30,17 +30,17 @@ const Container = () => {
     [handleCloseLogin]
   );
 
-  const handleSignUp = useCallback(
+  const handleBecomeUser = useCallback(
     async (email, password) => {
       try {
-        const response = await api.auth.signup(email, password);
-        console.log("response", response);
-        handleCloseSignUp();
+        const response = await api.auth.becomeUser(email, password);
+        console.log("handleBecomeUser Response", response);
+        handleCloseBecomeUser();
       } catch (error) {
         console.log(error);
       }
     },
-    [handleCloseSignUp]
+    [handleCloseBecomeUser]
   );
 
   return (
@@ -49,10 +49,10 @@ const Container = () => {
       onOpenLogin={handleOpenLogin}
       onLogin={handleLogin}
       onCloseLogin={handleCloseLogin}
-      isSignUpOpen={isSignUpOpen}
-      onOpenSignUp={handleOpenSignUp}
-      onCloseSignUp={handleCloseSignUp}
-      onSignUp={handleSignUp}
+      isBecomeUserOpen={isBecomeUserOpen}
+      onOpenBecomeUser={handleOpenBecomeUser}
+      onCloseBecomeUser={handleCloseBecomeUser}
+      onBecomeUser={handleBecomeUser}
     />
   );
 };

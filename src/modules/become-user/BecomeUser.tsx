@@ -13,7 +13,7 @@ interface Props {
   onSubmit: (email: string, password: string) => void;
 }
 
-const SignUp: FC<Props> = ({ open, onClose, onSubmit }) => {
+const BecomeUser: FC<Props> = ({ open, onClose, onSubmit }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -31,11 +31,10 @@ const SignUp: FC<Props> = ({ open, onClose, onSubmit }) => {
   return (
     <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
       <form onSubmit={handleSubmit}>
-        <DialogTitle id="form-dialog-title">Login</DialogTitle>
+        <DialogTitle id="form-dialog-title">Become a user</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To be able to create topics, you need to request permission. Please enter email and password and admin will
-            approve you.
+            To be able to create topics, send email and password and admin will approve you.
           </DialogContentText>
           <TextField
             margin="dense"
@@ -63,7 +62,7 @@ const SignUp: FC<Props> = ({ open, onClose, onSubmit }) => {
             Cancel
           </Button>
           <Button type="submit" variant="contained" color="primary">
-            Sign up
+            Send
           </Button>
         </DialogActions>
       </form>
@@ -71,4 +70,4 @@ const SignUp: FC<Props> = ({ open, onClose, onSubmit }) => {
   );
 };
 
-export { SignUp };
+export { BecomeUser };

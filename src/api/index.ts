@@ -11,7 +11,7 @@ const apiService: Api = {
   },
   auth: {
     login: (email, password) => api.post(`${PREFIX}/login`, { email, password }),
-    signup: (email, password) => api.post(`${PREFIX}/users/`, { email, password })
+    becomeUser: (email, password) => api.post(`${PREFIX}/users/`, { email, password })
   }
 };
 
