@@ -21,7 +21,12 @@ const Container = () => {
     async (email, password) => {
       try {
         const response = await api.auth.login(email, password);
-        console.log("response", response);
+        const { accessToken } = response.data;
+        console.log("data", accessToken);
+
+        if (accessToken) {
+        }
+
         handleCloseLogin();
       } catch (error) {
         console.log(error);
