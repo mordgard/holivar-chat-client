@@ -25,7 +25,7 @@ const Login: FC<Props> = ({ open, onClose, onSubmit }) => {
       e.preventDefault();
       onSubmit(email, password);
     },
-    [email, password, onSubmit]
+    [email, password, onSubmit],
   );
 
   // TODO: figure out why it drops an error "findDOMNode is deprecated in StrictMode."
