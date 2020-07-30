@@ -8,7 +8,6 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 
 import { Login } from "../login";
-import { BecomeUser } from "../become-user";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,23 +27,10 @@ interface Props {
   isLoginOpen: boolean;
   onOpenLogin: () => void;
   onCloseLogin: () => void;
-  onLogin: (email: string, password: string) => void;
-  isBecomeUserOpen: boolean;
-  onOpenBecomeUser: () => void;
-  onCloseBecomeUser: () => void;
-  onBecomeUser: (email: string, password: string) => void;
+  onSubmit: ({ email, password }: { email: string; password: string }) => void;
 }
 
-const Component: FC<Props> = ({
-  isLoginOpen,
-  onOpenLogin,
-  onCloseLogin,
-  onLogin,
-  isBecomeUserOpen,
-  onOpenBecomeUser,
-  onCloseBecomeUser,
-  onBecomeUser,
-}) => {
+const Component: FC<Props> = ({ isLoginOpen, onOpenLogin, onCloseLogin, onSubmit }) => {
   const classes = useStyles();
 
   return (
@@ -60,13 +46,12 @@ const Component: FC<Props> = ({
           <Button onClick={onOpenLogin} color="inherit">
             Login
           </Button>
-          <Button onClick={onOpenBecomeUser} color="inherit">
-            Become user
+          <Button onClick={() => {}} color="inherit">
+            Sign Up
           </Button>
         </Toolbar>
       </AppBar>
-      <BecomeUser open={isBecomeUserOpen} onClose={onCloseBecomeUser} onSubmit={onBecomeUser} />
-      <Login open={isLoginOpen} onClose={onCloseLogin} onSubmit={onLogin} />
+      <Login open={isLoginOpen} onClose={onCloseLogin} onSubmit={onSubmit} />
     </div>
   );
 };

@@ -8,14 +8,22 @@ export const clearTopics = createEvent();
 
 // Effect
 export const fetchTopicsFx = createEffect("fetch list of topics", {
-  handler: () => api.topics.getTopics(),
+  handler: async () => {
+    try {
+      const response = await api.topics.getTopics();
+      const { data } = response;
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
 });
 
 // Store
-// @ts-ignore
 // TODO fix types 👇
+// @ts-ignore
 export const $topics = createStore<ITopic[]>([])
-  .on(fetchTopicsFx.doneData, (_, { data }) => data)
+  .on(fetchTopicsFx.doneData, (_, data) => data)
   .reset(clearTopics);
 
 export const $loading = createStore<boolean>(false);

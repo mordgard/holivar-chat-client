@@ -10,4 +10,10 @@ const initialState: IAuthentication = {
   loggedIn: false,
 };
 
-export const $authentication = createStore<IAuthentication>(initialState);
+export const setUserCredentials = createEvent();
+export const resetUserCredentials = createEvent();
+
+export const $authentication = createStore<IAuthentication>(initialState)
+  // @ts-ignore
+  .on(setUserCredentials, (_, { token, userId }) => ({ token, userId, loggedIn: true }))
+  .reset(resetUserCredentials);

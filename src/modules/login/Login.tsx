@@ -10,7 +10,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 interface Props {
   open: boolean;
   onClose: () => void;
-  onSubmit: (email: string, password: string) => void;
+  onSubmit: ({ email, password }: { email: string; password: string }) => void;
 }
 
 const Login: FC<Props> = ({ open, onClose, onSubmit }) => {
@@ -23,7 +23,7 @@ const Login: FC<Props> = ({ open, onClose, onSubmit }) => {
   const handleSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      onSubmit(email, password);
+      onSubmit({ email, password });
     },
     [email, password, onSubmit],
   );
