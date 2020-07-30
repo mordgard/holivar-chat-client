@@ -1,3 +1,5 @@
+![CI](https://github.com/mordgard/holivar-chat-client/workflows/CI/badge.svg)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

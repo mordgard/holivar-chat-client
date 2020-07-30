@@ -1,16 +1,13 @@
 import React from "react";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { Header } from "./modules/header";
-import { Topics } from "./modules/topics";
+import { BrowserRouter as Router } from "react-router-dom";
+import { Routes } from "./Routes";
 
-function App() {
+const App = () => {
   return (
-    <>
-      <CssBaseline />
-      <Header />
-      <Topics />
-    </>
+    <Router>
+      <Routes />
+    </Router>
   );
-}
+};
 
 export default App;

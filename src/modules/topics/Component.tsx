@@ -1,11 +1,11 @@
 import React, { FC } from "react";
-import { Topic as TopicType } from "types";
+import { ITopic } from "types";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import { Topic } from "../../components/topic";
 
 interface Props {
-  topics: TopicType[];
+  topics: ITopic[];
 }
 
 const Component: FC<Props> = ({ topics }) => {

@@ -1,24 +1,16 @@
-import React, { useEffect, useState, useCallback } from "react";
-import api from "../../api";
+import React, { useEffect } from "react";
+import { useStore } from "effector-react";
 import { Component } from "./Component";
+import { $topics, fetchTopicsFx } from "./model";
 
 const Container = () => {
-  const [topics, setTopics] = useState<any>([]);
+  const topics = useStore($topics);
 
-  const fetchTopics = useCallback(async () => {
-    try {
-      const response = await api.topics.getTopics();
-      const { data } = response;
-      console.log("data", data);
-      setTopics(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  console.log("topics", topics);
 
   useEffect(() => {
-    fetchTopics();
-  }, [fetchTopics]);
+    fetchTopicsFx({});
+  }, []);
 
   return <Component topics={topics} />;
 };
