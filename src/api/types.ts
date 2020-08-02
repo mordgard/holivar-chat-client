@@ -4,6 +4,7 @@ import { ITopic, IUser } from "types";
 export interface Api {
   topics: {
     getTopics: () => Promise<AxiosResponse<{ data: ITopic[] }>>;
+    addTopic: (data: ITopic) => Promise<AxiosResponse>;
   };
 
   auth: {

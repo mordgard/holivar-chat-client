@@ -1,6 +1,6 @@
 declare module "types" {
   export interface ITopic {
-    id: string;
+    id?: string;
     title: string;
   }
 
