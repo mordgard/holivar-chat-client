@@ -8,18 +8,19 @@ import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles({
   root: {
-    minWidth: 275
+    minWidth: 275,
   },
   title: {
-    fontSize: 14
-  }
+    fontSize: 14,
+  },
 });
 
 interface Props {
   title: string;
+  description?: string;
 }
 
-const Topic: FC<Props> = ({ title }) => {
+const Topic: FC<Props> = ({ title, description }) => {
   const classes = useStyles();
 
   return (
@@ -31,9 +32,11 @@ const Topic: FC<Props> = ({ title }) => {
         <Typography variant="h5" component="h2">
           {title}
         </Typography>
-        <Typography variant="body2" component="p" noWrap>
-          well meaning and kindly.
-        </Typography>
+        {description && (
+          <Typography variant="body2" component="p">
+            {description}
+          </Typography>
+        )}
       </CardContent>
       <CardActions>
         <Button size="medium" variant="contained">

@@ -1,21 +1,40 @@
 import axios from "axios";
-import { Api } from "./types";
+import { apiService } from "./api";
 
-export const api = axios.create();
+const getToken = () => {
+  if (!localStorage.getItem("holivarChatSession")) {
+    return undefined;
+  }
 
-const PREFIX = "/api/v1";
-
-const apiService: Api = {
-  topics: {
-    getTopics: () => api.get(`${PREFIX}/topics`),
-  },
-  auth: {
-    login: ({ email, password }) => api.post(`${PREFIX}/login`, { email, password }),
-    becomeUser: ({ email, password }) => api.post(`${PREFIX}/users`, { email, password }),
-  },
-  users: {
-    getUsers: () => api.get(`${PREFIX}/users/`),
-  },
+  try {
+    // @ts-ignore
+    const { token } = JSON.parse(localStorage.getItem("holivarChatSession"));
+    return token as undefined | string;
+  } catch (e) {
+    console.log(e);
+  }
 };
 
-export default apiService;
+// axios.interceptors.request.use((config: AxiosRequestConfig) => {
+//   const token = getToken();
+//
+//   if (token) {
+//     config.headers.Authorization = `Bearer ${token}`;
+//   }
+//
+//   return config;
+// });
+
+const axiosInstance = axios.create({
+  transformRequest: [
+    function (data, headers) {
+      headers["Authorization"] = `Bearer ${getToken()}`;
+      return JSON.stringify(data);
+    },
+  ],
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+export default apiService(axiosInstance);

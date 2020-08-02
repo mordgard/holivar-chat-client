@@ -8,16 +8,20 @@ export interface ILoginForm {
 
 export const submitForm = createEvent<ILoginForm>();
 
-export const loginFx = createEffect("login", {
+export const loginFx = createEffect("loginFx", {
   handler: async ({ email, password }) => {
     try {
       const response = await api.auth.login({ email, password });
       const { accessToken } = response.data;
-      console.log("loginFx", accessToken);
+      return accessToken;
     } catch (error) {
       console.log(error);
     }
   },
+});
+
+submitForm.watch(payload => {
+  console.log("submitFormWatcherPayload", payload);
 });
 
 forward({

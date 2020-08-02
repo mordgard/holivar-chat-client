@@ -1,9 +1,10 @@
-import { createEvent, createStore, createEffect } from "effector";
+import { createEvent, createStore, createEffect, forward } from "effector";
 import { ITopic } from "types";
 import api from "../../api";
 
 // Event
 export const addTopic = createEvent<ITopic>();
+export const fetchTopics = createEvent();
 export const clearTopics = createEvent();
 
 // Effect
@@ -27,3 +28,8 @@ export const $topics = createStore<ITopic[]>([])
   .reset(clearTopics);
 
 export const $loading = createStore<boolean>(false);
+
+forward({
+  from: fetchTopics,
+  to: fetchTopicsFx,
+});

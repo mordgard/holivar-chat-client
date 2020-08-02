@@ -1,15 +1,13 @@
 import React, { useEffect } from "react";
 import { useStore } from "effector-react";
 import { Component } from "./Component";
-import { $topics, fetchTopicsFx } from "./model";
+import { $topics, fetchTopics } from "./model";
 
 const Container = () => {
   const topics = useStore($topics);
 
-  console.log("topics", topics);
-
   useEffect(() => {
-    fetchTopicsFx({});
+    fetchTopics();
   }, []);
 
   return <Component topics={topics} />;

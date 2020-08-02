@@ -1,4 +1,6 @@
 import { createStore, createEvent } from "effector";
+import withStorage from "effector-storage";
+import { loginFx } from "../login";
 
 export interface IAuthentication {
   token?: string;
@@ -10,10 +12,16 @@ const initialState: IAuthentication = {
   loggedIn: false,
 };
 
-export const setUserCredentials = createEvent();
-export const resetUserCredentials = createEvent();
+export const resetAuthenticationState = createEvent();
 
-export const $authentication = createStore<IAuthentication>(initialState)
-  // @ts-ignore
-  .on(setUserCredentials, (_, { token, userId }) => ({ token, userId, loggedIn: true }))
-  .reset(resetUserCredentials);
+const createStorageStore = withStorage(createStore);
+
+export const $authentication = createStorageStore<IAuthentication>(initialState, { key: "holivarChatSession" })
+  .on(loginFx.doneData, (_, token) => ({ token, loggedIn: true }))
+  .reset(resetAuthenticationState);
+
+$authentication.watch(state => {
+  console.log("authenticationState", state);
+});
+
+export const $isLoggedIn = $authentication.map(state => state.loggedIn);
