@@ -15,10 +15,13 @@ const Container = () => {
     fetchTopics();
   }, []);
 
-  const handleAddTopic = useCallback(({ title, description }) => {
-    addTopic({ title });
-    handleCloseAddTopic();
-  }, []);
+  const handleAddTopic = useCallback(
+    ({ title }) => {
+      addTopic({ title });
+      handleCloseAddTopic();
+    },
+    [handleCloseAddTopic],
+  );
 
   return (
     <Component
