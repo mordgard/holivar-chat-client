@@ -23,7 +23,7 @@ const AddTopic: FC<Props> = ({ open, onClose }) => {
       addTopic({ title });
       onClose();
     },
-    [title],
+    [title, onClose],
   );
 
   // TODO: figure out why it drops an error "findDOMNode is deprecated in StrictMode."
