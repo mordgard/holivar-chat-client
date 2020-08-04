@@ -1,5 +1,5 @@
-import React, { FC } from "react";
-import { ITopic } from "types";
+import React, { FC, useEffect, useCallback } from "react";
+import { useStore } from "effector-react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
@@ -8,15 +8,8 @@ import AddIcon from "@material-ui/icons/Add";
 import Tooltip from "@material-ui/core/Tooltip";
 
 import { Topic } from "../../components/topic";
-import { AddTopic } from "../add-topic";
-
-interface Props {
-  topics: ITopic[];
-  onAddTopic: ({ title, description }: { title: string; description: string }) => void;
-  onOpen: () => void;
-  onClose: () => void;
-  isOpen: boolean;
-}
+import { openDialog } from "../dialog";
+import { $topics, fetchTopics } from "./model";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,8 +21,18 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Component: FC<Props> = ({ topics, onAddTopic, onOpen, onClose, isOpen }) => {
+interface Props {}
+
+const Topics: FC<Props> = () => {
   const classes = useStyles();
+
+  const topics = useStore($topics);
+
+  const handleAddTopic = useCallback(() => openDialog("add-topic"), []);
+
+  useEffect(() => {
+    fetchTopics();
+  }, []);
 
   return (
     <Box display="flex" flexGrow={1}>
@@ -43,13 +46,12 @@ const Component: FC<Props> = ({ topics, onAddTopic, onOpen, onClose, isOpen }) =
         ))}
       </Grid>
       <Tooltip title="Add topic">
-        <Fab className={classes.fab} onClick={() => onOpen()} color="primary" aria-label="add">
+        <Fab className={classes.fab} onClick={handleAddTopic} color="primary" aria-label="add">
           <AddIcon />
         </Fab>
       </Tooltip>
-      {isOpen && <AddTopic open={isOpen} onClose={onClose} onSubmit={onAddTopic} />}
     </Box>
   );
 };
 
-export { Component };
+export { Topics };

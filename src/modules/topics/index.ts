@@ -1,2 +1,2 @@
-export { Container as Topics } from "./Container";
+export { Topics } from "./Topics";
 export * from "./model";

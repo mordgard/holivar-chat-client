@@ -15,16 +15,6 @@ const getToken = () => {
   }
 };
 
-// axios.interceptors.request.use((config: AxiosRequestConfig) => {
-//   const token = getToken();
-//
-//   if (token) {
-//     config.headers.Authorization = `Bearer ${token}`;
-//   }
-//
-//   return config;
-// });
-
 const axiosInstance = axios.create({
   transformRequest: [
     function (data, headers) {

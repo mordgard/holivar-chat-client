@@ -1,19 +1,16 @@
 import React, { useCallback, useState, FC, ChangeEvent, FormEvent } from "react";
-import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
+
+import { DialogForm } from "../../components/dialog-form";
+import { submitForm } from "./model";
 
 interface Props {
   open: boolean;
   onClose: () => void;
-  onSubmit: ({ email, password }: { email: string; password: string }) => void;
 }
 
-const Login: FC<Props> = ({ open, onClose, onSubmit }) => {
+const Login: FC<Props> = ({ open, onClose }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -23,48 +20,37 @@ const Login: FC<Props> = ({ open, onClose, onSubmit }) => {
   const handleSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      onSubmit({ email, password });
+      submitForm({ email, password });
+      onClose();
     },
-    [email, password, onSubmit],
+    [email, password, onClose],
   );
 
   // TODO: figure out why it drops an error "findDOMNode is deprecated in StrictMode."
   return (
     <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
-      <form onSubmit={handleSubmit}>
-        <DialogTitle id="form-dialog-title">Login</DialogTitle>
-        <DialogContent>
-          <DialogContentText>To be able to create topics, you need to log in</DialogContentText>
-          <TextField
-            margin="dense"
-            value={email}
-            onChange={handleEmailChange}
-            name="email"
-            required
-            label="Email Address"
-            type="email"
-            fullWidth
-          />
-          <TextField
-            margin="dense"
-            value={password}
-            onChange={handlePasswordChange}
-            name="password"
-            required
-            label="Password"
-            type="password"
-            fullWidth
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={onClose} color="primary">
-            Cancel
-          </Button>
-          <Button type="submit" variant="contained" color="primary">
-            Login
-          </Button>
-        </DialogActions>
-      </form>
+      <DialogForm onSubmit={handleSubmit} onClose={onClose} title="Login">
+        <TextField
+          margin="dense"
+          value={email}
+          onChange={handleEmailChange}
+          name="email"
+          required
+          label="Email Address"
+          type="email"
+          fullWidth
+        />
+        <TextField
+          margin="dense"
+          value={password}
+          onChange={handlePasswordChange}
+          name="password"
+          required
+          label="Password"
+          type="password"
+          fullWidth
+        />
+      </DialogForm>
     </Dialog>
   );
 };
