@@ -3,14 +3,14 @@ import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 
 import { DialogForm } from "../../components/dialog-form";
+import { addTopic } from "./model";
 
 interface Props {
   open: boolean;
   onClose: () => void;
-  onSubmit: ({ title, description }: { title: string; description: string }) => void;
 }
 
-const AddTopic: FC<Props> = ({ open, onClose, onSubmit }) => {
+const AddTopic: FC<Props> = ({ open, onClose }) => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
@@ -20,9 +20,10 @@ const AddTopic: FC<Props> = ({ open, onClose, onSubmit }) => {
   const handleSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      onSubmit({ title, description });
+      addTopic({ title });
+      onClose();
     },
-    [title, description, onSubmit],
+    [title],
   );
 
   // TODO: figure out why it drops an error "findDOMNode is deprecated in StrictMode."

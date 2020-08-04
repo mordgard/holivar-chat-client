@@ -3,14 +3,14 @@ import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 
 import { DialogForm } from "../../components/dialog-form";
+import { submitForm } from "./model";
 
 interface Props {
   open: boolean;
   onClose: () => void;
-  onSubmit: ({ email, password }: { email: string; password: string }) => void;
 }
 
-const Login: FC<Props> = ({ open, onClose, onSubmit }) => {
+const Login: FC<Props> = ({ open, onClose }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -20,9 +20,10 @@ const Login: FC<Props> = ({ open, onClose, onSubmit }) => {
   const handleSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      onSubmit({ email, password });
+      submitForm({ email, password });
+      onClose();
     },
-    [email, password, onSubmit],
+    [email, password],
   );
 
   // TODO: figure out why it drops an error "findDOMNode is deprecated in StrictMode."
