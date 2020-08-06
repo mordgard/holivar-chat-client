@@ -5,6 +5,7 @@ import { $dialogName, closeDialog } from "./model";
 import { Login } from "../login";
 import { AddTopic } from "../add-topic";
 import { SignUp } from "../sign-up";
+import { ErrorDialog } from "../error-dialog";
 
 const Dialog: FC = () => {
   const activeName = useStore($dialogName);
@@ -16,6 +17,7 @@ const Dialog: FC = () => {
       {activeName === "login" && <Login open onClose={handleClose} />}
       {activeName === "sign-up" && <SignUp open onClose={handleClose} />}
       {activeName === "add-topic" && <AddTopic open onClose={handleClose} />}
+      {activeName === "error" && <ErrorDialog open onClose={handleClose} />}
     </>
   );
 };
