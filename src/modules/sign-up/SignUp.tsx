@@ -10,7 +10,7 @@ interface Props {
   onClose: () => void;
 }
 
-const Login: FC<Props> = ({ open, onClose }) => {
+const SignUp: FC<Props> = ({ open, onClose }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -29,7 +29,13 @@ const Login: FC<Props> = ({ open, onClose }) => {
   // TODO: figure out why it drops an error "findDOMNode is deprecated in StrictMode."
   return (
     <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
-      <DialogForm onSubmit={handleSubmit} onClose={onClose} title="Login" submitButtonText="Login">
+      <DialogForm
+        onSubmit={handleSubmit}
+        onClose={onClose}
+        title="Sign Up"
+        description="Administrator will approve you after few minutes"
+        submitButtonText="Sign up"
+      >
         <TextField
           margin="dense"
           value={email}
@@ -55,4 +61,4 @@ const Login: FC<Props> = ({ open, onClose }) => {
   );
 };
 
-export { Login };
+export { SignUp };

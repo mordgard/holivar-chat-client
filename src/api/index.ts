@@ -7,8 +7,7 @@ const getToken = () => {
   }
 
   try {
-    // @ts-ignore
-    const { token } = JSON.parse(localStorage.getItem("holivarChatSession"));
+    const { token } = JSON.parse(localStorage.getItem("holivarChatSession") as string);
     return token as undefined | string;
   } catch (e) {
     console.log(e);

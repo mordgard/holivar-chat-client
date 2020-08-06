@@ -10,7 +10,7 @@ const apiService = (axiosInstance: AxiosInstance): Api => ({
   },
   auth: {
     login: ({ email, password }) => axiosInstance.post(`${PREFIX}/login`, { email, password }),
-    becomeUser: ({ email, password }) => axiosInstance.post(`${PREFIX}/users`, { email, password }),
+    signUp: ({ email, password }) => axiosInstance.post(`${PREFIX}/users`, { email, password }),
   },
   users: {
     getUsers: () => axiosInstance.get(`${PREFIX}/users/`),
