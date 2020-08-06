@@ -10,6 +10,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { Topic } from "../../components/topic";
 import { openDialog } from "../dialog";
 import { $topics, fetchTopics } from "./model";
+import { $isLoggedIn } from "../auth";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -27,8 +28,11 @@ const Topics: FC<Props> = () => {
   const classes = useStyles();
 
   const topics = useStore($topics);
+  const isLoggedIn = useStore($isLoggedIn);
 
-  const handleAddTopic = useCallback(() => openDialog("add-topic"), []);
+  const handleAddTopic = useCallback(() => {
+    isLoggedIn ? openDialog("add-topic") : openDialog("error");
+  }, [isLoggedIn]);
 
   useEffect(() => {
     fetchTopics();
@@ -38,7 +42,7 @@ const Topics: FC<Props> = () => {
     <Box display="flex" flexGrow={1}>
       <Grid container>
         {topics.map(({ title }) => (
-          <Grid key={title} item xs={12} sm={6} lg={3}>
+          <Grid key={title} item xs={12} sm={6} lg={3} xl={2}>
             <Box p={2}>
               <Topic title={title} />
             </Box>
