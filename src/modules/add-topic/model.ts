@@ -4,11 +4,11 @@ import api from "../../api";
 import { fetchTopics } from "../topics";
 
 // Event
-export const addTopic = createEvent<ITopic>();
+export const addTopic = createEvent<Partial<ITopic>>();
 
 // Effect
 export const addTopicFx = createEffect("add new topic", {
-  handler: async ({ title }) => {
+  handler: async ({ title }: Partial<ITopic>) => {
     try {
       await api.topics.addTopic({ title });
     } catch (error) {
