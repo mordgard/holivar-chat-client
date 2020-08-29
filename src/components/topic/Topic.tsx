@@ -16,11 +16,13 @@ const useStyles = makeStyles({
 });
 
 interface Props {
+  topicId: string;
   title: string;
   description?: string;
+  onAnswer: (topicId: string, answer: boolean) => void;
 }
 
-const Topic: FC<Props> = ({ title, description }) => {
+const Topic: FC<Props> = ({ topicId, title, description, onAnswer }) => {
   const classes = useStyles();
 
   return (
@@ -39,10 +41,10 @@ const Topic: FC<Props> = ({ title, description }) => {
         )}
       </CardContent>
       <CardActions>
-        <Button size="medium" variant="contained">
+        <Button onClick={() => onAnswer(topicId, false)} size="medium" variant="contained">
           No
         </Button>
-        <Button size="medium" variant="contained">
+        <Button onClick={() => onAnswer(topicId, true)} size="medium" variant="contained">
           Yes
         </Button>
       </CardActions>

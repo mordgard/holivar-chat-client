@@ -14,6 +14,7 @@ const apiService = (axiosInstance: AxiosInstance): Api => ({
   },
   users: {
     getUsers: () => axiosInstance.get(`${PREFIX}/users/`),
+    addTopicAnswer: (topicId, answer) => axiosInstance.post(`${PREFIX}/users/topic-answer`, { topicId, answer }),
   },
 });
 

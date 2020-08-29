@@ -1,6 +1,6 @@
 declare module "types" {
   export interface ITopic {
-    id?: string;
+    id: string;
     title: string;
   }
 
@@ -9,6 +9,12 @@ declare module "types" {
     email: string;
     status: UserStatus;
     role: UserRole;
+    topicsAnswers: ITopicAnswer[];
+  }
+
+  export interface ITopicAnswer {
+    topicId: string;
+    answer: boolean;
   }
 
   export type UserRole = "moderator" | "admin";
