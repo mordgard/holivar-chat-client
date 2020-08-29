@@ -16,7 +16,7 @@
     "effector": "^21.0.3",
     "effector-react": "^21.0.4",
     "effector-storage": "^3.0.0",
-    "formik": "^2.1.4",
+    "formik": "^2.1.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
