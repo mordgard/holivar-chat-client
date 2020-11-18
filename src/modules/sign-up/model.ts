@@ -9,7 +9,7 @@ export interface ISignUpForm {
 export const submitForm = createEvent<ISignUpForm>();
 
 export const signUpFx = createEffect("signUpFx", {
-  handler: async ({ email, password }) => {
+  handler: async ({ email, password }: ISignUpForm) => {
     try {
       await api.auth.signUp({ email, password });
     } catch (error) {
