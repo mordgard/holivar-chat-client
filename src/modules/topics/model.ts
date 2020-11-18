@@ -21,7 +21,7 @@ export const fetchTopicsFx = createEffect("fetch list of topics", {
 });
 
 export const addTopicAnswerFx = createEffect("add topic answer", {
-  handler: async ({ topicId, answer }) => {
+  handler: async ({ topicId, answer }: any) => {
     try {
       const response = await api.users.addTopicAnswer(topicId, answer);
       const topicsAnswers = response.data;

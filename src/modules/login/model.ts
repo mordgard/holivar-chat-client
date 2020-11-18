@@ -9,7 +9,7 @@ export interface ILoginForm {
 export const submitForm = createEvent<ILoginForm>();
 
 export const loginFx = createEffect("loginFx", {
-  handler: async ({ email, password }) => {
+  handler: async ({ email, password }: ILoginForm) => {
     try {
       const response = await api.auth.login({ email, password });
       const { accessToken } = response.data;
