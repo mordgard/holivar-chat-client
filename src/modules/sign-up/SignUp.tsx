@@ -2,15 +2,15 @@ import React, { useCallback, useState, FC, ChangeEvent, FormEvent } from "react"
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 
+import { useDialog } from "../dialog";
 import { DialogForm } from "../../components/dialog-form";
 import { submitForm } from "./model";
 
-interface Props {
-  open: boolean;
-  onClose: () => void;
-}
+interface Props {}
 
-const SignUp: FC<Props> = ({ open, onClose }) => {
+const SignUp: FC<Props> = () => {
+  const { dialogName, closeDialog } = useDialog();
+
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -21,17 +21,16 @@ const SignUp: FC<Props> = ({ open, onClose }) => {
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       submitForm({ email, password });
-      onClose();
+      closeDialog();
     },
-    [email, password, onClose],
+    [email, password, closeDialog],
   );
 
-  // TODO: figure out why it drops an error "findDOMNode is deprecated in StrictMode."
   return (
-    <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
+    <Dialog open={dialogName === "sign-up"} onClose={closeDialog} aria-labelledby="form-dialog-title">
       <DialogForm
         onSubmit={handleSubmit}
-        onClose={onClose}
+        onClose={closeDialog}
         title="Sign Up"
         description="Administrator will approve you after few minutes"
         submitButtonText="Sign up"

@@ -1,2 +1,2 @@
 export { Dialog } from "./Dialog";
-export * from "./model";
+export * from "./context";

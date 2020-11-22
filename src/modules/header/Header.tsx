@@ -9,7 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 
 import { resetAuthenticationState, $isLoggedIn } from "../auth";
-import { openDialog } from "../dialog";
+import { useDialog } from "../dialog";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,10 +29,11 @@ interface Props {}
 
 const Header: FC<Props> = () => {
   const classes = useStyles();
+  const { openDialog } = useDialog();
   const isLoggedIn = useStore($isLoggedIn);
 
-  const handleOpenLogin = useCallback(() => openDialog("login"), []);
-  const handleOpenSignUp = useCallback(() => openDialog("sign-up"), []);
+  const handleOpenLogin = useCallback(() => openDialog("login"), [openDialog]);
+  const handleOpenSignUp = useCallback(() => openDialog("sign-up"), [openDialog]);
 
   return (
     <div className={classes.root}>

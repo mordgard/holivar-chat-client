@@ -7,8 +7,9 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import Tooltip from "@material-ui/core/Tooltip";
 
+import { useDialog } from "../dialog";
 import { Topic } from "../../components/topic";
-import { openDialog } from "../dialog";
+
 import { $topics, fetchTopics, addTopicAnswer, $topicsAnswers } from "./model";
 import { $isLoggedIn } from "../auth";
 
@@ -26,6 +27,7 @@ interface Props {}
 
 const Topics: FC<Props> = () => {
   const classes = useStyles();
+  const { openDialog } = useDialog();
 
   const topics = useStore($topics);
   const isLoggedIn = useStore($isLoggedIn);
@@ -33,7 +35,7 @@ const Topics: FC<Props> = () => {
   console.log("here", topicsAnswers);
   const handleAddTopic = useCallback(() => {
     isLoggedIn ? openDialog("add-topic") : openDialog("error");
-  }, [isLoggedIn]);
+  }, [isLoggedIn, openDialog]);
 
   const handleAnswer = useCallback((topicId: string, answer: boolean) => {
     addTopicAnswer({ topicId, answer });

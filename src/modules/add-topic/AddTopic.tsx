@@ -2,15 +2,15 @@ import React, { useCallback, useState, FC, ChangeEvent, FormEvent } from "react"
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 
+import { useDialog } from "../dialog";
 import { DialogForm } from "../../components/dialog-form";
 import { addTopic } from "./model";
 
-interface Props {
-  open: boolean;
-  onClose: () => void;
-}
+interface Props {}
 
-const AddTopic: FC<Props> = ({ open, onClose }) => {
+const AddTopic: FC<Props> = () => {
+  const { dialogName, closeDialog } = useDialog();
+
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
@@ -21,15 +21,14 @@ const AddTopic: FC<Props> = ({ open, onClose }) => {
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       addTopic({ title });
-      onClose();
+      closeDialog();
     },
-    [title, onClose],
+    [title, closeDialog],
   );
 
-  // TODO: figure out why it drops an error "findDOMNode is deprecated in StrictMode."
   return (
-    <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
-      <DialogForm onSubmit={handleSubmit} onClose={onClose} title="Add Topic">
+    <Dialog open={dialogName === "add-topic"} onClose={closeDialog} aria-labelledby="form-dialog-title">
+      <DialogForm onSubmit={handleSubmit} onClose={closeDialog} title="Add Topic">
         <>
           <TextField
             margin="dense"

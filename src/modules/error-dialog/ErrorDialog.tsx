@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from "react";
+import React, { FC } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -6,32 +6,31 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 
-import { openDialog } from "../dialog";
+import { useDialog } from "../dialog";
 
-interface Props {
-  open: boolean;
-  onClose: () => void;
-}
+interface Props {}
 
-const ErrorDialog: FC<Props> = ({ open, onClose }) => {
-  const handleOpenLogin = useCallback(() => {
-    onClose();
+const ErrorDialog: FC<Props> = () => {
+  const { dialogName, closeDialog, openDialog } = useDialog();
+
+  const handleOpenLogin = () => {
+    closeDialog();
     openDialog("login");
-  }, [onClose]);
+  };
 
-  const handleOpenSignUp = useCallback(() => {
-    onClose();
+  const handleOpenSignUp = () => {
+    closeDialog();
     openDialog("sign-up");
-  }, [onClose]);
+  };
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={dialogName === "error"} onClose={closeDialog}>
       <DialogTitle>Please Login or Sign Up</DialogTitle>
       <DialogContent>
         <DialogContentText>To be able to create topics, please sign up or login.</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary">
+        <Button onClick={closeDialog} color="primary">
           Cancel
         </Button>
         <Button onClick={handleOpenSignUp} type="submit" variant="contained" color="primary">
