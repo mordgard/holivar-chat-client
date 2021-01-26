@@ -4,7 +4,7 @@ import Dialog from "@material-ui/core/Dialog";
 
 import { useDialog } from "../dialog";
 import { DialogForm } from "../../components/dialog-form";
-import { addTopic } from "./model";
+// import { addTopic } from "./model";
 
 interface Props {}
 
@@ -20,7 +20,7 @@ const AddTopic: FC<Props> = () => {
   const handleSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      addTopic({ title });
+      // addTopic({ title });
       closeDialog();
     },
     [title, closeDialog],

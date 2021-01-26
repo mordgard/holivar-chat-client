@@ -2,14 +2,19 @@ import React, { useCallback, useState, FC, ChangeEvent, FormEvent } from "react"
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 
+import api from "../../api";
+import { useAsync } from "../../hooks";
 import { useDialog } from "../dialog";
 import { DialogForm } from "../../components/dialog-form";
-import { submitForm } from "./model";
+// import { submitForm } from "./model";
 
 interface Props {}
 
 const SignUp: FC<Props> = () => {
   const { dialogName, closeDialog } = useDialog();
+  const { run, status, message, reset } = useAsync(
+    async ({ email, password }: { email: string; password: string }) => await api.auth.signUp({ email, password }),
+  );
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -18,12 +23,12 @@ const SignUp: FC<Props> = () => {
   const handlePasswordChange = useCallback((e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value), []);
 
   const handleSubmit = useCallback(
-    (e: FormEvent<HTMLFormElement>) => {
+    async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      submitForm({ email, password });
+      await run({ email, password });
       closeDialog();
     },
-    [email, password, closeDialog],
+    [run, email, password, closeDialog],
   );
 
   return (
@@ -31,6 +36,7 @@ const SignUp: FC<Props> = () => {
       <DialogForm
         onSubmit={handleSubmit}
         onClose={closeDialog}
+        status={status}
         title="Sign Up"
         description="Administrator will approve you after few minutes"
         submitButtonText="Sign up"

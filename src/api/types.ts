@@ -3,7 +3,7 @@ import { ITopic, ITopicAnswer, IUser } from "types";
 
 export interface Api {
   topics: {
-    getTopics: () => Promise<AxiosResponse<{ data: ITopic[] }>>;
+    getTopics: () => Promise<AxiosResponse<ITopic[]>>;
     addTopic: (data: Partial<ITopic>) => Promise<AxiosResponse>;
   };
 

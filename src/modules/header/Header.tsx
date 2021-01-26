@@ -1,5 +1,4 @@
-import React, { FC, useCallback } from "react";
-import { useStore } from "effector-react";
+import React, { FC } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -8,7 +7,7 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 
-import { resetAuthenticationState, $isLoggedIn } from "../auth";
+import { useAuth } from "../auth";
 import { useDialog } from "../dialog";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -30,10 +29,11 @@ interface Props {}
 const Header: FC<Props> = () => {
   const classes = useStyles();
   const { openDialog } = useDialog();
-  const isLoggedIn = useStore($isLoggedIn);
+  const { loggedIn, logout } = useAuth();
 
-  const handleOpenLogin = useCallback(() => openDialog("login"), [openDialog]);
-  const handleOpenSignUp = useCallback(() => openDialog("sign-up"), [openDialog]);
+  const handleOpenLogin = () => openDialog("login");
+  const handleOpenSignUp = () => openDialog("sign-up");
+  const handleResetAuthenticationState = () => logout();
 
   return (
     <div className={classes.root}>
@@ -53,12 +53,12 @@ const Header: FC<Props> = () => {
           <Typography variant="h6" className={classes.title}>
             HolivarChat
           </Typography>
-          {isLoggedIn && (
-            <Button onClick={() => resetAuthenticationState()} color="inherit">
+          {loggedIn && (
+            <Button onClick={handleResetAuthenticationState} color="inherit">
               Logout
             </Button>
           )}
-          {!isLoggedIn && (
+          {!loggedIn && (
             <>
               <Button onClick={handleOpenLogin} color="inherit">
                 Login

@@ -2,14 +2,23 @@ import React, { useCallback, useState, FC, ChangeEvent, FormEvent } from "react"
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 
+import api from "../../api";
+import { useAsync } from "../../hooks";
+import { useAuth } from "../auth";
 import { useDialog } from "../dialog";
 import { DialogForm } from "../../components/dialog-form";
-import { submitForm } from "./model";
 
+interface ILoginForm {
+  email: string;
+  password: string;
+}
 interface Props {}
 
 const Login: FC<Props> = () => {
+  const { run, status, message, reset } = useAsync(async (data: ILoginForm) => await api.auth.login(data));
   const { dialogName, closeDialog } = useDialog();
+  const { login, token, loggedIn } = useAuth();
+  console.log("HERE", status, token, loggedIn);
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -18,17 +27,22 @@ const Login: FC<Props> = () => {
   const handlePasswordChange = useCallback((e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value), []);
 
   const handleSubmit = useCallback(
-    (e: FormEvent<HTMLFormElement>) => {
+    async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      submitForm({ email, password });
+      const response = await run({ email, password });
+      const { accessToken } = response.data;
+      console.log(accessToken);
+      if (accessToken) {
+        login(accessToken);
+      }
       closeDialog();
     },
-    [email, password, closeDialog],
+    [run, email, password, closeDialog, login],
   );
 
   return (
     <Dialog open={dialogName === "login"} onClose={closeDialog} aria-labelledby="form-dialog-title">
-      <DialogForm onSubmit={handleSubmit} onClose={closeDialog} title="Login" submitButtonText="Login">
+      <DialogForm onSubmit={handleSubmit} onClose={closeDialog} status={status} title="Login" submitButtonText="Login">
         <TextField
           margin="dense"
           value={email}

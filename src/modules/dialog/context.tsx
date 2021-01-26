@@ -1,14 +1,9 @@
 import * as React from "react";
 
-interface ActionTypes {
-  openDialog: string;
-  closeDialog: string;
+enum actionTypes {
+  openDialog = "dialogs/open-dialog",
+  closeDialog = "dialogs/close-dialog",
 }
-
-const actionTypes: ActionTypes = {
-  openDialog: "dialogs/open-dialog",
-  closeDialog: "dialogs/close-dialog",
-};
 
 interface IDialogContext {
   dialogName?: string;

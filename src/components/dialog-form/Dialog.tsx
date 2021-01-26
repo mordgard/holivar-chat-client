@@ -5,16 +5,27 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 
+import { TStatus } from "../../hooks/useAsync";
+
 interface Props {
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
   onClose: () => void;
   title: string;
   description?: string;
   submitButtonText?: string;
+  status?: TStatus;
   children: ReactNode;
 }
 
-const DialogForm: FC<Props> = ({ onSubmit, onClose, title, description, submitButtonText, children }) => {
+const DialogForm: FC<Props> = ({
+  onSubmit,
+  onClose,
+  title,
+  description,
+  submitButtonText,
+  status = "IDLE",
+  children,
+}) => {
   return (
     <form onSubmit={onSubmit}>
       <DialogTitle id="form-dialog-title">{title}</DialogTitle>
@@ -26,7 +37,7 @@ const DialogForm: FC<Props> = ({ onSubmit, onClose, title, description, submitBu
         <Button onClick={onClose} color="primary">
           Cancel
         </Button>
-        <Button type="submit" variant="contained" color="primary">
+        <Button type="submit" variant="contained" color="primary" disabled={["ERROR", "PROCESSING"].includes(status)}>
           {submitButtonText ? submitButtonText : "Submit"}
         </Button>
       </DialogActions>
