@@ -18,7 +18,6 @@ const Login: FC<Props> = () => {
   const { run, status, message, reset } = useAsync(async (data: ILoginForm) => await api.auth.login(data));
   const { dialogName, closeDialog } = useDialog();
   const { login, token, loggedIn } = useAuth();
-  console.log("HERE", status, token, loggedIn);
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");

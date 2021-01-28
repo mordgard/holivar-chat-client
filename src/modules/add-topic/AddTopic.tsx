@@ -10,7 +10,6 @@ interface Props {}
 
 const AddTopic: FC<Props> = () => {
   const { dialogName, closeDialog } = useDialog();
-
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 

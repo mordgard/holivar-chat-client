@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useLocalStorage } from "../../hooks";
 
 enum actionTypes {
   login = "auth/login",
@@ -22,7 +23,7 @@ interface IState {
   loggedIn: boolean;
 }
 
-const initialState: IState = {
+const initialState: IState = JSON.parse(localStorage.getItem("holivarChatSession") as string) || {
   loggedIn: false,
 };
 
@@ -43,6 +44,13 @@ interface IProviderProps {
 
 const AuthProvider: React.FC<IProviderProps> = props => {
   const [state, dispatch] = React.useReducer(authReducer, initialState);
+  const [localStorage, setLocalStorage] = useLocalStorage("holivarChatSession", state);
+
+  React.useEffect(() => {
+    // TODO: figure out WTF with types👇
+    // @ts-ignore
+    setLocalStorage(state);
+  }, [setLocalStorage, state]);
 
   const login = (token: string) => dispatch({ type: actionTypes.login, payload: token });
   const logout = () => dispatch({ type: actionTypes.logout });
