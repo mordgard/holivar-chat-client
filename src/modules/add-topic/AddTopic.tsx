@@ -22,7 +22,7 @@ const AddTopic: FC<Props> = () => {
       // addTopic({ title });
       closeDialog();
     },
-    [title, closeDialog],
+    [closeDialog],
   );
 
   return (
