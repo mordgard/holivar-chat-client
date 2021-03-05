@@ -14,9 +14,9 @@ interface LoginForm {
 }
 
 const Login = () => {
-  const { run, status, message, reset } = useAsync(async (data: LoginForm) => await api.auth.login(data));
+  const { run, status } = useAsync(async (data: LoginForm) => await api.auth.login(data));
   const { dialogName, closeDialog } = useDialog();
-  const { login, token, loggedIn } = useAuth();
+  const { login } = useAuth();
 
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
@@ -32,7 +32,7 @@ const Login = () => {
       e.preventDefault();
       const response = await run({ email, password });
       const { accessToken } = response.data;
-      console.log(accessToken);
+      console.log("accessToken: 💩", accessToken);
       if (accessToken) {
         login(accessToken);
       }

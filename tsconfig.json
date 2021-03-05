@@ -16,7 +16,7 @@
     "noUnusedParameters": false,
     "noEmit": true,
     "jsx": "react-jsx",
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
   },
   "include": ["src"],
   "exclude": ["node_modules"]

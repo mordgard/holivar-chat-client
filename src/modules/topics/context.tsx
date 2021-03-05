@@ -7,13 +7,13 @@ enum actionTypes {
   loadTopics = "topics/load",
 }
 
-interface TopicsContext {
+interface TopicsCtx {
   topics: Topic[];
   fetchTopics: () => void;
   status: Status;
 }
 
-const TopicsContext = React.createContext<TopicsContext | null>(null);
+const TopicsContext = React.createContext<TopicsCtx | null>(null);
 TopicsContext.displayName = "TopicsContext";
 
 interface State {
@@ -39,7 +39,7 @@ interface ProviderProps {
 
 const TopicsProvider: React.FC<ProviderProps> = props => {
   const [state, dispatch] = React.useReducer(topicsReducer, initialState);
-  const { run, status, message, reset } = useAsync(async () => await api.topics.getTopics());
+  const { run, status } = useAsync(async () => await api.topics.getTopics());
 
   const fetchTopics = React.useCallback(async () => {
     const response = await run();

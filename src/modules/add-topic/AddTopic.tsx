@@ -14,9 +14,7 @@ const AddTopic = () => {
   const [title, setTitle] = React.useState<string>("");
   const [description, setDescription] = React.useState<string>("");
   const { fetchTopics } = useTopics();
-  const { run, status, message, reset } = useAsync(
-    async ({ title }: Partial<Topic>) => await api.topics.addTopic({ title }),
-  );
+  const { run, status } = useAsync(async ({ title }: Partial<Topic>) => await api.topics.addTopic({ title }));
 
   const handleEmailChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value), []);
   const handlePasswordChange = React.useCallback(

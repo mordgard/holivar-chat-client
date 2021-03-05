@@ -9,7 +9,7 @@ import { DialogForm } from "../../components/dialog-form";
 
 const SignUp = () => {
   const { dialogName, closeDialog } = useDialog();
-  const { run, status, message, reset } = useAsync(
+  const { run, status } = useAsync(
     async ({ email, password }: { email: string; password: string }) => await api.auth.signUp({ email, password }),
   );
 

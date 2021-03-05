@@ -44,7 +44,7 @@ interface IProviderProps {
 
 const AuthProvider: React.FC<IProviderProps> = props => {
   const [state, dispatch] = React.useReducer(authReducer, initialState);
-  const [localStorage, setLocalStorage] = useLocalStorage("holivarChatSession", state);
+  const [, setLocalStorage] = useLocalStorage("holivarChatSession", state);
 
   React.useEffect(() => {
     // TODO: figure out WTF with types👇
