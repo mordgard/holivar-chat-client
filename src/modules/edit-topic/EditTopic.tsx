@@ -5,16 +5,18 @@ import Dialog from "@material-ui/core/Dialog";
 import api from "../../api";
 import { useAsync } from "../../hooks";
 import { useDialog } from "../dialog";
+import { useTopics } from "../topics";
 import { DialogForm } from "../../components/dialog-form";
 import { Topic } from "types";
-import { useTopics } from "../topics";
 
-const AddTopic = () => {
-  const { dialogName, closeDialog } = useDialog();
+const EditTopic = () => {
+  const { dialogName, meta, closeDialog } = useDialog();
   const [title, setTitle] = React.useState<string>("");
   const [description, setDescription] = React.useState<string>("");
   const { fetchTopics } = useTopics();
-  const { run, status } = useAsync(async ({ title }: Partial<Topic>) => await api.topics.addTopic({ title }));
+  const { run, status } = useAsync(
+    async (topicId: string, { title }: Partial<Topic>) => await api.topics.updateTopic(topicId, { title }),
+  );
 
   const handleTitleChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value), []);
   const handleDescriptionChange = React.useCallback(
@@ -25,16 +27,18 @@ const AddTopic = () => {
   const handleSubmit = React.useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      await run({ title });
-      closeDialog();
-      fetchTopics();
+      if (meta?.topicId) {
+        await run(meta.topicId, { title });
+        closeDialog();
+        fetchTopics();
+      }
     },
-    [closeDialog, fetchTopics, run, title],
+    [closeDialog, fetchTopics, meta, run, title],
   );
 
   return (
-    <Dialog open={dialogName === "add-topic"} onClose={closeDialog} aria-labelledby="form-dialog-title">
-      <DialogForm onSubmit={handleSubmit} onClose={closeDialog} status={status} title="Add Topic">
+    <Dialog open={dialogName === "edit-topic"} onClose={closeDialog} aria-labelledby="form-dialog-title">
+      <DialogForm onSubmit={handleSubmit} onClose={closeDialog} status={status} title="Edit Topic">
         <>
           <TextField
             margin="dense"
@@ -61,4 +65,4 @@ const AddTopic = () => {
   );
 };
 
-export { AddTopic };
+export { EditTopic };

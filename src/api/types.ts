@@ -6,6 +6,7 @@ export interface Api {
     getTopics: () => Promise<AxiosResponse<Topic[]>>;
     addTopic: (data: Partial<Topic>) => Promise<AxiosResponse>;
     deleteTopic: (topicId: string) => Promise<Topic>;
+    updateTopic: (topicId: string, data: Partial<Topic>) => Promise<Topic>;
   };
 
   auth: {

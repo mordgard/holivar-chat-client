@@ -45,6 +45,13 @@ const Topics = () => {
     // addTopicAnswer({ topicId, answer });
   }, []);
 
+  const handleEdit = React.useCallback(
+    (topicId: string) => {
+      loggedIn ? openDialog("edit-topic", { topicId }) : openDialog("error");
+    },
+    [loggedIn, openDialog],
+  );
+
   const handleDelete = React.useCallback(
     async (topicId: string) => {
       await run(topicId);
@@ -72,7 +79,7 @@ const Topics = () => {
           {topics.map(({ id, title }) => (
             <Grid key={id} item xs={12} sm={6} lg={3} xl={2}>
               <Box p={2}>
-                <Topic topicId={id} title={title} onAnswer={handleAnswer} onDelete={handleDelete} />
+                <Topic topicId={id} title={title} onAnswer={handleAnswer} onDelete={handleDelete} onEdit={handleEdit} />
               </Box>
             </Grid>
           ))}

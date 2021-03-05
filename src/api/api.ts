@@ -8,6 +8,7 @@ const apiService = (api: AxiosInstance): Api => ({
     getTopics: () => api.get(`${PREFIX}/topics`),
     addTopic: data => api.post(`${PREFIX}/topics`, data),
     deleteTopic: topicId => api.delete(`${PREFIX}/topics/${topicId}`),
+    updateTopic: (topicId, data) => api.put(`${PREFIX}/topics/${topicId}`, data),
   },
   auth: {
     login: ({ email, password }) => api.post(`${PREFIX}/login`, { email, password }),
