@@ -1,10 +1,10 @@
 import { AxiosResponse } from "axios";
-import { ITopic, ITopicAnswer, IUser } from "types";
+import { Topic, TopicAnswer, User } from "types";
 
 export interface Api {
   topics: {
-    getTopics: () => Promise<AxiosResponse<{ data: ITopic[] }>>;
-    addTopic: (data: Partial<ITopic>) => Promise<AxiosResponse>;
+    getTopics: () => Promise<AxiosResponse<Topic[]>>;
+    addTopic: (data: Partial<Topic>) => Promise<AxiosResponse>;
   };
 
   auth: {
@@ -20,7 +20,7 @@ export interface Api {
   };
 
   users: {
-    getUsers: () => Promise<AxiosResponse<{ data: IUser[] }>>;
-    addTopicAnswer: (topicId: string, answer: boolean) => Promise<AxiosResponse<{ data: ITopicAnswer[] }>>;
+    getUsers: () => Promise<AxiosResponse<{ data: User[] }>>;
+    addTopicAnswer: (topicId: string, answer: boolean) => Promise<AxiosResponse<{ data: TopicAnswer[] }>>;
   };
 }

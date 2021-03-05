@@ -1,37 +1,42 @@
-import React, { useCallback, useState, FC, ChangeEvent, FormEvent } from "react";
+import * as React from "react";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 
+import api from "../../api";
+import { useAsync } from "../../hooks";
+import { useDialog } from "../dialog";
 import { DialogForm } from "../../components/dialog-form";
-import { submitForm } from "./model";
 
-interface Props {
-  open: boolean;
-  onClose: () => void;
-}
-
-const SignUp: FC<Props> = ({ open, onClose }) => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-
-  const handleEmailChange = useCallback((e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value), []);
-  const handlePasswordChange = useCallback((e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value), []);
-
-  const handleSubmit = useCallback(
-    (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      submitForm({ email, password });
-      onClose();
-    },
-    [email, password, onClose],
+const SignUp = () => {
+  const { dialogName, closeDialog } = useDialog();
+  const { run, status } = useAsync(
+    async ({ email, password }: { email: string; password: string }) => await api.auth.signUp({ email, password }),
   );
 
-  // TODO: figure out why it drops an error "findDOMNode is deprecated in StrictMode."
+  const [email, setEmail] = React.useState<string>("");
+  const [password, setPassword] = React.useState<string>("");
+
+  const handleEmailChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value), []);
+  const handlePasswordChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value),
+    [],
+  );
+
+  const handleSubmit = React.useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      await run({ email, password });
+      closeDialog();
+    },
+    [run, email, password, closeDialog],
+  );
+
   return (
-    <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
+    <Dialog open={dialogName === "sign-up"} onClose={closeDialog} aria-labelledby="form-dialog-title">
       <DialogForm
         onSubmit={handleSubmit}
-        onClose={onClose}
+        onClose={closeDialog}
+        status={status}
         title="Sign Up"
         description="Administrator will approve you after few minutes"
         submitButtonText="Sign up"

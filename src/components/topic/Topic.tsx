@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import * as React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -22,7 +22,7 @@ interface Props {
   onAnswer: (topicId: string, answer: boolean) => void;
 }
 
-const Topic: FC<Props> = ({ topicId, title, description, onAnswer }) => {
+const Topic: React.FC<Props> = ({ topicId, title, description, onAnswer }) => {
   const classes = useStyles();
 
   return (

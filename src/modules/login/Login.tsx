@@ -1,35 +1,49 @@
-import React, { useCallback, useState, FC, ChangeEvent, FormEvent } from "react";
+import * as React from "react";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 
+import api from "../../api";
+import { useAsync } from "../../hooks";
+import { useAuth } from "../auth";
+import { useDialog } from "../dialog";
 import { DialogForm } from "../../components/dialog-form";
-import { submitForm } from "./model";
 
-interface Props {
-  open: boolean;
-  onClose: () => void;
+interface LoginForm {
+  email: string;
+  password: string;
 }
 
-const Login: FC<Props> = ({ open, onClose }) => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+const Login = () => {
+  const { run, status } = useAsync(async (data: LoginForm) => await api.auth.login(data));
+  const { dialogName, closeDialog } = useDialog();
+  const { login } = useAuth();
 
-  const handleEmailChange = useCallback((e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value), []);
-  const handlePasswordChange = useCallback((e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value), []);
+  const [email, setEmail] = React.useState<string>("");
+  const [password, setPassword] = React.useState<string>("");
 
-  const handleSubmit = useCallback(
-    (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      submitForm({ email, password });
-      onClose();
-    },
-    [email, password, onClose],
+  const handleEmailChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value), []);
+  const handlePasswordChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value),
+    [],
   );
 
-  // TODO: figure out why it drops an error "findDOMNode is deprecated in StrictMode."
+  const handleSubmit = React.useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const response = await run({ email, password });
+      const { accessToken } = response.data;
+      console.log("accessToken: 💩", accessToken);
+      if (accessToken) {
+        login(accessToken);
+      }
+      closeDialog();
+    },
+    [run, email, password, closeDialog, login],
+  );
+
   return (
-    <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
-      <DialogForm onSubmit={handleSubmit} onClose={onClose} title="Login" submitButtonText="Login">
+    <Dialog open={dialogName === "login"} onClose={closeDialog} aria-labelledby="form-dialog-title">
+      <DialogForm onSubmit={handleSubmit} onClose={closeDialog} status={status} title="Login" submitButtonText="Login">
         <TextField
           margin="dense"
           value={email}

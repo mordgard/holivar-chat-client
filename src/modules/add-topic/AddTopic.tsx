@@ -1,35 +1,40 @@
-import React, { useCallback, useState, FC, ChangeEvent, FormEvent } from "react";
+import * as React from "react";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 
+import api from "../../api";
+import { useAsync } from "../../hooks";
+import { useDialog } from "../dialog";
 import { DialogForm } from "../../components/dialog-form";
-import { addTopic } from "./model";
+import { Topic } from "types";
+import { useTopics } from "../topics";
 
-interface Props {
-  open: boolean;
-  onClose: () => void;
-}
+const AddTopic = () => {
+  const { dialogName, closeDialog } = useDialog();
+  const [title, setTitle] = React.useState<string>("");
+  const [description, setDescription] = React.useState<string>("");
+  const { fetchTopics } = useTopics();
+  const { run, status } = useAsync(async ({ title }: Partial<Topic>) => await api.topics.addTopic({ title }));
 
-const AddTopic: FC<Props> = ({ open, onClose }) => {
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-
-  const handleEmailChange = useCallback((e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value), []);
-  const handlePasswordChange = useCallback((e: ChangeEvent<HTMLInputElement>) => setDescription(e.target.value), []);
-
-  const handleSubmit = useCallback(
-    (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      addTopic({ title });
-      onClose();
-    },
-    [title, onClose],
+  const handleEmailChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value), []);
+  const handlePasswordChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value),
+    [],
   );
 
-  // TODO: figure out why it drops an error "findDOMNode is deprecated in StrictMode."
+  const handleSubmit = React.useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      await run({ title });
+      closeDialog();
+      fetchTopics();
+    },
+    [closeDialog, fetchTopics, run, title],
+  );
+
   return (
-    <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
-      <DialogForm onSubmit={handleSubmit} onClose={onClose} title="Add Topic">
+    <Dialog open={dialogName === "add-topic"} onClose={closeDialog} aria-labelledby="form-dialog-title">
+      <DialogForm onSubmit={handleSubmit} onClose={closeDialog} status={status} title="Add Topic">
         <>
           <TextField
             margin="dense"

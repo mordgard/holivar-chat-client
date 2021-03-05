@@ -1,20 +1,31 @@
-import React, { FC, FormEvent, ReactNode } from "react";
+import * as React from "react";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 
+import { Status, statuses } from "../../hooks";
+
 interface Props {
-  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   onClose: () => void;
   title: string;
   description?: string;
   submitButtonText?: string;
-  children: ReactNode;
+  status?: Status;
+  children: React.ReactNode;
 }
 
-const DialogForm: FC<Props> = ({ onSubmit, onClose, title, description, submitButtonText, children }) => {
+const DialogForm: React.FC<Props> = ({
+  onSubmit,
+  onClose,
+  title,
+  description,
+  submitButtonText,
+  status = statuses.IDLE,
+  children,
+}) => {
   return (
     <form onSubmit={onSubmit}>
       <DialogTitle id="form-dialog-title">{title}</DialogTitle>
@@ -26,7 +37,7 @@ const DialogForm: FC<Props> = ({ onSubmit, onClose, title, description, submitBu
         <Button onClick={onClose} color="primary">
           Cancel
         </Button>
-        <Button type="submit" variant="contained" color="primary">
+        <Button type="submit" variant="contained" color="primary" disabled={["ERROR", "PROCESSING"].includes(status)}>
           {submitButtonText ? submitButtonText : "Submit"}
         </Button>
       </DialogActions>
