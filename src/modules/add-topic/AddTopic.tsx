@@ -1,33 +1,42 @@
-import React, { useCallback, useState, FC, ChangeEvent, FormEvent } from "react";
+import * as React from "react";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 
+import api from "../../api";
+import { useAsync } from "../../hooks";
 import { useDialog } from "../dialog";
 import { DialogForm } from "../../components/dialog-form";
-// import { addTopic } from "./model";
+import { Topic } from "types";
+import { useTopics } from "../topics";
 
-interface Props {}
-
-const AddTopic: FC<Props> = () => {
+const AddTopic = () => {
   const { dialogName, closeDialog } = useDialog();
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
+  const [title, setTitle] = React.useState<string>("");
+  const [description, setDescription] = React.useState<string>("");
+  const { fetchTopics } = useTopics();
+  const { run, status, message, reset } = useAsync(
+    async ({ title }: Partial<Topic>) => await api.topics.addTopic({ title }),
+  );
 
-  const handleEmailChange = useCallback((e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value), []);
-  const handlePasswordChange = useCallback((e: ChangeEvent<HTMLInputElement>) => setDescription(e.target.value), []);
+  const handleEmailChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value), []);
+  const handlePasswordChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value),
+    [],
+  );
 
-  const handleSubmit = useCallback(
-    (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = React.useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      // addTopic({ title });
+      await run({ title });
       closeDialog();
+      fetchTopics();
     },
-    [closeDialog],
+    [closeDialog, fetchTopics, run, title],
   );
 
   return (
     <Dialog open={dialogName === "add-topic"} onClose={closeDialog} aria-labelledby="form-dialog-title">
-      <DialogForm onSubmit={handleSubmit} onClose={closeDialog} title="Add Topic">
+      <DialogForm onSubmit={handleSubmit} onClose={closeDialog} status={status} title="Add Topic">
         <>
           <TextField
             margin="dense"

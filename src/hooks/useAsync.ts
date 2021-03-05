@@ -1,21 +1,27 @@
 import * as React from "react";
 
-export type TStatus = "IDLE" | "PROCESSING" | "ERROR" | "SUCCESS";
+export enum statuses {
+  IDLE = "IDLE",
+  PROCESSING = "PROCESSING",
+  ERROR = "ERROR",
+  SUCCESS = "SUCCESS",
+}
+export type Status = keyof typeof statuses;
 
 export function useAsync<T extends any[], R = any>(task: (...args: T) => Promise<R>) {
-  const [status, setStatus] = React.useState<TStatus>("IDLE");
+  const [status, setStatus] = React.useState<Status>(statuses.IDLE);
   const [message, setMessage] = React.useState("");
 
   const run = React.useCallback(async (...arg: T) => {
-    setStatus("PROCESSING");
+    setStatus(statuses.PROCESSING);
     try {
       const resp: R = await task(...arg);
-      setStatus("SUCCESS");
+      setStatus(statuses.SUCCESS);
       return resp;
     } catch (error) {
       const message = error?.response?.data?.error?.message || error.message;
       setMessage(message);
-      setStatus("ERROR");
+      setStatus(statuses.ERROR);
       throw error;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -23,7 +29,7 @@ export function useAsync<T extends any[], R = any>(task: (...args: T) => Promise
 
   const reset = React.useCallback(() => {
     setMessage("");
-    setStatus("IDLE");
+    setStatus(statuses.IDLE);
   }, []);
 
   return {

@@ -5,13 +5,13 @@ enum actionTypes {
   closeDialog = "dialogs/close-dialog",
 }
 
-interface IDialogContext {
+interface DialogCtx {
   dialogName?: string;
   openDialog: (dialogName: string) => void;
   closeDialog: () => void;
 }
 
-const DialogContext = React.createContext<IDialogContext | null>(null);
+const DialogContext = React.createContext<DialogCtx | null>(null);
 DialogContext.displayName = "DialogContext";
 
 interface IState {
@@ -33,11 +33,11 @@ const dialogReducer = (state: IState, action: { type: string; payload?: string }
   }
 };
 
-interface IProviderProps {
+interface ProviderProps {
   children: React.ReactNode;
 }
 
-const DialogProvider: React.FC<IProviderProps> = props => {
+const DialogProvider: React.FC<ProviderProps> = props => {
   const [{ dialogName }, dispatch] = React.useReducer(dialogReducer, initialState);
 
   const openDialog = (dialogName: string) => dispatch({ type: actionTypes.openDialog, payload: dialogName });

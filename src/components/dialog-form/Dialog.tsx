@@ -1,29 +1,29 @@
-import React, { FC, FormEvent, ReactNode } from "react";
+import * as React from "react";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 
-import { TStatus } from "../../hooks/useAsync";
+import { Status, statuses } from "../../hooks";
 
 interface Props {
-  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   onClose: () => void;
   title: string;
   description?: string;
   submitButtonText?: string;
-  status?: TStatus;
-  children: ReactNode;
+  status?: Status;
+  children: React.ReactNode;
 }
 
-const DialogForm: FC<Props> = ({
+const DialogForm: React.FC<Props> = ({
   onSubmit,
   onClose,
   title,
   description,
   submitButtonText,
-  status = "IDLE",
+  status = statuses.IDLE,
   children,
 }) => {
   return (

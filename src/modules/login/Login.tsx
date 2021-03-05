@@ -1,4 +1,4 @@
-import React, { useCallback, useState, FC, ChangeEvent, FormEvent } from "react";
+import * as React from "react";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 
@@ -8,25 +8,27 @@ import { useAuth } from "../auth";
 import { useDialog } from "../dialog";
 import { DialogForm } from "../../components/dialog-form";
 
-interface ILoginForm {
+interface LoginForm {
   email: string;
   password: string;
 }
-interface Props {}
 
-const Login: FC<Props> = () => {
-  const { run, status, message, reset } = useAsync(async (data: ILoginForm) => await api.auth.login(data));
+const Login = () => {
+  const { run, status, message, reset } = useAsync(async (data: LoginForm) => await api.auth.login(data));
   const { dialogName, closeDialog } = useDialog();
   const { login, token, loggedIn } = useAuth();
 
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [email, setEmail] = React.useState<string>("");
+  const [password, setPassword] = React.useState<string>("");
 
-  const handleEmailChange = useCallback((e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value), []);
-  const handlePasswordChange = useCallback((e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value), []);
+  const handleEmailChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value), []);
+  const handlePasswordChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value),
+    [],
+  );
 
-  const handleSubmit = useCallback(
-    async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = React.useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       const response = await run({ email, password });
       const { accessToken } = response.data;

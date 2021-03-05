@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import * as React from "react";
 import { Route } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
@@ -8,7 +8,7 @@ import { Header } from "./modules/header";
 import { Topics, TopicsProvider } from "./modules/topics";
 import { Dialog } from "./modules/dialog";
 
-const Routes: FC = () => (
+const Routes = () => (
   <CssBaseline>
     <Route path="/">
       <DialogProvider>
@@ -16,8 +16,8 @@ const Routes: FC = () => (
           <Header />
           <TopicsProvider>
             <Topics />
+            <Dialog />
           </TopicsProvider>
-          <Dialog />
         </AuthProvider>
       </DialogProvider>
     </Route>

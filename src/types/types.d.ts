@@ -1,18 +1,19 @@
 declare module "types" {
-  export interface ITopic {
+  export interface Topic {
     id: string;
     title: string;
+    description: string;
   }
 
-  export interface IUser {
+  export interface User {
     id: string;
     email: string;
     status: UserStatus;
     role: UserRole;
-    topicsAnswers: ITopicAnswer[];
+    topicsAnswers: TopicAnswer[];
   }
 
-  export interface ITopicAnswer {
+  export interface TopicAnswer {
     topicId: string;
     answer: boolean;
   }

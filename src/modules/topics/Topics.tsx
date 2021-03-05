@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useCallback } from "react";
+import * as React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
@@ -6,8 +6,7 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import Tooltip from "@material-ui/core/Tooltip";
 
-import api from "../../api";
-import { useAsync } from "../../hooks";
+import { statuses } from "../../hooks";
 import { useAuth } from "../auth";
 import { useTopics } from "./context";
 import { useDialog } from "../dialog";
@@ -30,34 +29,21 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-interface Props {}
-
-const Topics: FC<Props> = () => {
+const Topics = () => {
   const classes = useStyles();
-  const { run, status, message, reset } = useAsync(async () => await api.topics.getTopics());
   const { openDialog } = useDialog();
   const { loggedIn } = useAuth();
-  const { topics, loadTopics } = useTopics();
+  const { topics, fetchTopics, status } = useTopics();
 
-  // const topicsAnswers = useStore($topicsAnswers);
-
-  const handleAddTopic = useCallback(() => {
+  const handleAddTopic = React.useCallback(() => {
     loggedIn ? openDialog("add-topic") : openDialog("error");
   }, [loggedIn, openDialog]);
 
-  const handleAnswer = useCallback((topicId: string, answer: boolean) => {
+  const handleAnswer = React.useCallback((topicId: string, answer: boolean) => {
     // addTopicAnswer({ topicId, answer });
   }, []);
 
-  const fetchTopics = useCallback(async () => {
-    const response = await run();
-    const data = response.data;
-    if (data) {
-      loadTopics(data);
-    }
-  }, [loadTopics, run]);
-
-  useEffect(() => {
+  React.useEffect(() => {
     if (!topics.length) {
       fetchTopics();
     }
@@ -65,13 +51,13 @@ const Topics: FC<Props> = () => {
 
   return (
     <Box display="flex" flexGrow={1}>
-      {status === "PROCESSING" && (
+      {status === statuses.PROCESSING && (
         <Box className={classes.loader}>
           <CircularLoader />
         </Box>
       )}
 
-      {status === "SUCCESS" && (
+      {status === statuses.SUCCESS && (
         <Grid container>
           {topics.map(({ id, title }) => (
             <Grid key={id} item xs={12} sm={6} lg={3} xl={2}>

@@ -1,27 +1,30 @@
 import * as React from "react";
-import { ITopic } from "types";
+import { Topic } from "types";
+import { Status, useAsync } from "../../hooks";
+import api from "../../api";
 
 enum actionTypes {
   loadTopics = "topics/load",
 }
 
-interface ITopicsContext {
-  topics: ITopic[];
-  loadTopics: (topics: ITopic[]) => void;
+interface TopicsContext {
+  topics: Topic[];
+  fetchTopics: () => void;
+  status: Status;
 }
 
-const TopicsContext = React.createContext<ITopicsContext | null>(null);
+const TopicsContext = React.createContext<TopicsContext | null>(null);
 TopicsContext.displayName = "TopicsContext";
 
-interface IState {
-  topics: ITopic[];
+interface State {
+  topics: Topic[];
 }
 
-const initialState: IState = {
+const initialState: State = {
   topics: [],
 };
 
-const topicsReducer = (state: IState, action: { type: string; payload?: any }): IState => {
+const topicsReducer = (state: State, action: { type: string; payload?: any }): State => {
   switch (action.type) {
     case actionTypes.loadTopics:
       return { ...state, topics: action.payload };
@@ -30,16 +33,23 @@ const topicsReducer = (state: IState, action: { type: string; payload?: any }): 
   }
 };
 
-interface IProviderProps {
+interface ProviderProps {
   children: React.ReactNode;
 }
 
-const TopicsProvider: React.FC<IProviderProps> = props => {
+const TopicsProvider: React.FC<ProviderProps> = props => {
   const [state, dispatch] = React.useReducer(topicsReducer, initialState);
+  const { run, status, message, reset } = useAsync(async () => await api.topics.getTopics());
 
-  const loadTopics = (topics: ITopic[]) => dispatch({ type: actionTypes.loadTopics, payload: topics });
+  const fetchTopics = React.useCallback(async () => {
+    const response = await run();
+    const data = response.data;
+    if (data) {
+      dispatch({ type: actionTypes.loadTopics, payload: data });
+    }
+  }, [run]);
 
-  const value = React.useMemo(() => ({ ...state, loadTopics }), [state]);
+  const value = React.useMemo(() => ({ ...state, fetchTopics, status }), [state, fetchTopics, status]);
 
   return <TopicsContext.Provider value={value} {...props} />;
 };

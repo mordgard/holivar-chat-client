@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import * as React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -24,9 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-interface Props {}
-
-const Header: FC<Props> = () => {
+const Header = () => {
   const classes = useStyles();
   const { openDialog } = useDialog();
   const { loggedIn, logout } = useAuth();

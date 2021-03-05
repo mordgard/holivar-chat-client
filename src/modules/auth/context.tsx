@@ -6,7 +6,7 @@ enum actionTypes {
   logout = "auth/logout",
 }
 
-interface IAuthenticationContext {
+interface AuthenticationContext {
   token?: string;
   userId?: string;
   loggedIn: boolean;
@@ -14,20 +14,20 @@ interface IAuthenticationContext {
   logout: () => void;
 }
 
-const AuthContext = React.createContext<IAuthenticationContext | null>(null);
+const AuthContext = React.createContext<AuthenticationContext | null>(null);
 AuthContext.displayName = "AuthContext";
 
-interface IState {
+interface State {
   token?: string;
   userId?: string;
   loggedIn: boolean;
 }
 
-const initialState: IState = JSON.parse(localStorage.getItem("holivarChatSession") as string) || {
+const initialState: State = JSON.parse(localStorage.getItem("holivarChatSession") as string) || {
   loggedIn: false,
 };
 
-const authReducer = (state: IState, action: { type: string; payload?: any }): IState => {
+const authReducer = (state: State, action: { type: string; payload?: any }): State => {
   switch (action.type) {
     case actionTypes.login:
       return { ...state, loggedIn: true, token: action.payload };

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import * as React from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -8,9 +8,7 @@ import Button from "@material-ui/core/Button";
 
 import { useDialog } from "../dialog";
 
-interface Props {}
-
-const ErrorDialog: FC<Props> = () => {
+const ErrorDialog = () => {
   const { dialogName, closeDialog, openDialog } = useDialog();
 
   const handleOpenLogin = () => {
