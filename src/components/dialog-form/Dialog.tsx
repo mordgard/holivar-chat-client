@@ -14,7 +14,6 @@ interface Props {
   description?: string;
   submitButtonText?: string;
   status?: Status;
-  children: React.ReactNode;
 }
 
 const DialogForm: React.FC<Props> = ({

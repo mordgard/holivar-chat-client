@@ -25,7 +25,7 @@ const ErrorDialog = () => {
     <Dialog open={dialogName === "error"} onClose={closeDialog}>
       <DialogTitle>Please Login or Sign Up</DialogTitle>
       <DialogContent>
-        <DialogContentText>To be able to create topics, please sign up or login.</DialogContentText>
+        <DialogContentText>To be able to create, update or delete topics, please sign up or login.</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={closeDialog} color="primary">

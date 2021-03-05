@@ -30,7 +30,7 @@ interface Props {
   onEdit: (topicId: string) => void;
 }
 
-const Topic: React.FC<Props> = ({ topicId, title, description, onAnswer, onDelete, onEdit }) => {
+const Topic = ({ topicId, title, description, onAnswer, onDelete, onEdit }: Props) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
