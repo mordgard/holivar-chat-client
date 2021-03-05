@@ -1,17 +1,17 @@
 import * as React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/DeleteForever";
 
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
-  },
-  title: {
-    fontSize: 14,
   },
 });
 
@@ -20,20 +20,24 @@ interface Props {
   title: string;
   description?: string;
   onAnswer: (topicId: string, answer: boolean) => void;
+  onDelete: (topicId: string) => void;
 }
 
-const Topic: React.FC<Props> = ({ topicId, title, description, onAnswer }) => {
+const Topic: React.FC<Props> = ({ topicId, title, description, onAnswer, onDelete }) => {
   const classes = useStyles();
 
   return (
     <Card className={classes.root}>
+      <CardHeader
+        title={title}
+        action={
+          <IconButton onClick={() => onDelete(topicId)} aria-label="remove">
+            <DeleteIcon />
+          </IconButton>
+        }
+        subheader="Do you agree?"
+      />
       <CardContent>
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
-          Do you agree?
-        </Typography>
-        <Typography variant="h5" component="h2">
-          {title}
-        </Typography>
         {description && (
           <Typography variant="body2" component="p">
             {description}

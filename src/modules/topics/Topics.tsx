@@ -6,7 +6,8 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import Tooltip from "@material-ui/core/Tooltip";
 
-import { statuses } from "../../hooks";
+import api from "../../api";
+import { useAsync, statuses } from "../../hooks";
 import { useAuth } from "../auth";
 import { useTopics } from "./context";
 import { useDialog } from "../dialog";
@@ -34,6 +35,7 @@ const Topics = () => {
   const { openDialog } = useDialog();
   const { loggedIn } = useAuth();
   const { topics, fetchTopics, status } = useTopics();
+  const { run } = useAsync(async (topicId: string) => await api.topics.deleteTopic(topicId));
 
   const handleAddTopic = React.useCallback(() => {
     loggedIn ? openDialog("add-topic") : openDialog("error");
@@ -42,6 +44,14 @@ const Topics = () => {
   const handleAnswer = React.useCallback((topicId: string, answer: boolean) => {
     // addTopicAnswer({ topicId, answer });
   }, []);
+
+  const handleDelete = React.useCallback(
+    async (topicId: string) => {
+      await run(topicId);
+      fetchTopics();
+    },
+    [fetchTopics, run],
+  );
 
   React.useEffect(() => {
     if (!topics.length) {
@@ -62,7 +72,7 @@ const Topics = () => {
           {topics.map(({ id, title }) => (
             <Grid key={id} item xs={12} sm={6} lg={3} xl={2}>
               <Box p={2}>
-                <Topic topicId={id} title={title} onAnswer={handleAnswer} />
+                <Topic topicId={id} title={title} onAnswer={handleAnswer} onDelete={handleDelete} />
               </Box>
             </Grid>
           ))}
