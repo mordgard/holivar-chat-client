@@ -8,7 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 
 import { useAuth } from "../auth";
-import { useDialog } from "../dialog";
+import { useDialog, DIALOG_NAMES } from "../dialog";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,8 +29,8 @@ const Header = () => {
   const { openDialog } = useDialog();
   const { loggedIn, logout } = useAuth();
 
-  const handleOpenLogin = () => openDialog("login");
-  const handleOpenSignUp = () => openDialog("sign-up");
+  const handleOpenLogin = () => openDialog(DIALOG_NAMES.login);
+  const handleOpenSignUp = () => openDialog(DIALOG_NAMES.signUp);
   const handleResetAuthenticationState = () => logout();
 
   return (

@@ -10,7 +10,7 @@ import api from "../../api";
 import { useAsync, statuses } from "../../hooks";
 import { useAuth } from "../auth";
 import { useTopics } from "./context";
-import { useDialog } from "../dialog";
+import { useDialog, DIALOG_NAMES } from "../dialog";
 import { Topic } from "../../components/topic";
 import { CircularLoader } from "../../components/loader";
 
@@ -35,29 +35,35 @@ const Topics = () => {
   const { openDialog } = useDialog();
   const { loggedIn } = useAuth();
   const { topics, fetchTopics, status } = useTopics();
-  const { run } = useAsync(async (topicId: string) => await api.topics.deleteTopic(topicId));
+  const { run: deleteTopic } = useAsync(async (topicId: string) => await api.topics.deleteTopic(topicId));
+  const { run: addAnswer } = useAsync(
+    async (topicId: string, answer: boolean) => await api.users.addTopicAnswer(topicId, answer),
+  );
 
   const handleAddTopic = React.useCallback(() => {
-    loggedIn ? openDialog("add-topic") : openDialog("error");
+    loggedIn ? openDialog(DIALOG_NAMES.addTopic) : openDialog(DIALOG_NAMES.error);
   }, [loggedIn, openDialog]);
 
-  const handleAnswer = React.useCallback((topicId: string, answer: boolean) => {
-    // addTopicAnswer({ topicId, answer });
-  }, []);
+  const handleAnswer = React.useCallback(
+    async (topicId: string, answer: boolean) => {
+      await addAnswer(topicId, answer);
+    },
+    [addAnswer],
+  );
 
   const handleEdit = React.useCallback(
     (topicId: string) => {
-      loggedIn ? openDialog("edit-topic", { topicId }) : openDialog("error");
+      loggedIn ? openDialog(DIALOG_NAMES.editTopic, { topicId }) : openDialog(DIALOG_NAMES.error);
     },
     [loggedIn, openDialog],
   );
 
   const handleDelete = React.useCallback(
     async (topicId: string) => {
-      await run(topicId);
+      await deleteTopic(topicId);
       fetchTopics();
     },
-    [fetchTopics, run],
+    [fetchTopics, deleteTopic],
   );
 
   React.useEffect(() => {

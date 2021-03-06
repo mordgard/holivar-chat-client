@@ -6,23 +6,23 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 
-import { useDialog } from "../dialog";
+import { useDialog, DIALOG_NAMES } from "../dialog";
 
 const ErrorDialog = () => {
-  const { dialogName, closeDialog, openDialog } = useDialog();
+  const { closeDialog, openDialog } = useDialog();
 
   const handleOpenLogin = () => {
     closeDialog();
-    openDialog("login");
+    openDialog(DIALOG_NAMES.login);
   };
 
   const handleOpenSignUp = () => {
     closeDialog();
-    openDialog("sign-up");
+    openDialog(DIALOG_NAMES.signUp);
   };
 
   return (
-    <Dialog open={dialogName === "error"} onClose={closeDialog}>
+    <Dialog open={true} onClose={closeDialog}>
       <DialogTitle>Please Login or Sign Up</DialogTitle>
       <DialogContent>
         <DialogContentText>To be able to create, update or delete topics, please sign up or login.</DialogContentText>

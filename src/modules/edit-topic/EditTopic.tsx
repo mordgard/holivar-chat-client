@@ -10,7 +10,7 @@ import { DialogForm } from "../../components/dialog-form";
 import { Topic } from "types";
 
 const EditTopic = () => {
-  const { dialogName, meta, closeDialog } = useDialog();
+  const { meta, closeDialog } = useDialog();
   const [title, setTitle] = React.useState<string>("");
   const [description, setDescription] = React.useState<string>("");
   const { fetchTopics } = useTopics();
@@ -37,7 +37,7 @@ const EditTopic = () => {
   );
 
   return (
-    <Dialog open={dialogName === "edit-topic"} onClose={closeDialog} aria-labelledby="form-dialog-title">
+    <Dialog open={true} onClose={closeDialog} aria-labelledby="form-dialog-title">
       <DialogForm onSubmit={handleSubmit} onClose={closeDialog} status={status} title="Edit Topic">
         <>
           <TextField

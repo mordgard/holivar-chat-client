@@ -15,7 +15,7 @@ interface LoginForm {
 
 const Login = () => {
   const { run, status } = useAsync(async (data: LoginForm) => await api.auth.login(data));
-  const { dialogName, closeDialog } = useDialog();
+  const { closeDialog } = useDialog();
   const { login } = useAuth();
 
   const [email, setEmail] = React.useState<string>("");
@@ -42,7 +42,7 @@ const Login = () => {
   );
 
   return (
-    <Dialog open={dialogName === "login"} onClose={closeDialog} aria-labelledby="form-dialog-title">
+    <Dialog open={true} onClose={closeDialog} aria-labelledby="form-dialog-title">
       <DialogForm onSubmit={handleSubmit} onClose={closeDialog} status={status} title="Login" submitButtonText="Login">
         <TextField
           margin="dense"
