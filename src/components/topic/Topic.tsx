@@ -14,10 +14,15 @@ import ListItemText from "@material-ui/core/ListItemText";
 import DeleteIcon from "@material-ui/icons/DeleteForever";
 import EditIcon from "@material-ui/icons/Edit";
 import MoreIcon from "@material-ui/icons/MoreVert";
+import ThumbUpIcon from "@material-ui/icons/ThumbUp";
+import ThumbDownIcon from "@material-ui/icons/ThumbDown";
 
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
+  },
+  connectBtn: {
+    marginLeft: "auto",
   },
 });
 
@@ -77,24 +82,36 @@ const Topic = ({ topicId, title, answer, isAnswersFetching, description, onAnswe
           </Typography>
         )}
       </CardContent>
-      <CardActions>
-        <Button
+      <CardActions disableSpacing>
+        <IconButton
           onClick={() => onAnswer(topicId, false)}
           color="secondary"
           size="medium"
-          variant="contained"
           disabled={answer !== undefined || isAnswersFetching}
+          aria-label="thumb down"
         >
-          No
-        </Button>
-        <Button
+          <ThumbDownIcon />
+        </IconButton>
+        <IconButton
           onClick={() => onAnswer(topicId, true)}
           color="secondary"
           size="medium"
-          variant="contained"
           disabled={answer !== undefined || isAnswersFetching}
+          aria-label="thumb up"
         >
-          Yes
+          <ThumbUpIcon />
+        </IconButton>
+        <Button
+          className={classes.connectBtn}
+          onClick={() => {
+            console.log("connect");
+          }}
+          color="primary"
+          size="medium"
+          variant="outlined"
+          disabled={answer === undefined}
+        >
+          Connect
         </Button>
       </CardActions>
     </Card>
