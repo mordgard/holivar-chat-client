@@ -16,6 +16,7 @@ const apiService = (api: AxiosInstance): Api => ({
   },
   users: {
     getUsers: () => api.get(`${PREFIX}/users/`),
+    getAnswers: () => api.get(`${PREFIX}/users/topic-answers`),
     addTopicAnswer: (topicId, answer) => api.post(`${PREFIX}/users/topic-answer`, { topicId, answer }),
   },
 });

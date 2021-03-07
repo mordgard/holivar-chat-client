@@ -13,6 +13,8 @@ import { useTopics } from "./context";
 import { useDialog, DIALOG_NAMES } from "../dialog";
 import { Topic } from "../../components/topic";
 import { CircularLoader } from "../../components/loader";
+import { TopicAnswer } from "types";
+import { useCallback } from "react";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,13 +34,20 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Topics = () => {
   const classes = useStyles();
+  const [answers, setAnswers] = React.useState<TopicAnswer[]>([]);
   const { openDialog } = useDialog();
   const { loggedIn } = useAuth();
-  const { topics, fetchTopics, status } = useTopics();
+  const { topics, fetchTopics, status: isTopicsFetching } = useTopics();
   const { run: deleteTopic } = useAsync(async (topicId: string) => await api.topics.deleteTopic(topicId));
   const { run: addAnswer } = useAsync(
     async (topicId: string, answer: boolean) => await api.users.addTopicAnswer(topicId, answer),
   );
+  const { run: getAnswers, status: isAnswersFetching } = useAsync(async () => await api.users.getAnswers());
+
+  const fetchAnswers = useCallback(async () => {
+    const { data } = await getAnswers();
+    setAnswers(data);
+  }, [getAnswers]);
 
   const handleAddTopic = React.useCallback(() => {
     loggedIn ? openDialog(DIALOG_NAMES.addTopic) : openDialog(DIALOG_NAMES.error);
@@ -47,8 +56,9 @@ const Topics = () => {
   const handleAnswer = React.useCallback(
     async (topicId: string, answer: boolean) => {
       await addAnswer(topicId, answer);
+      fetchAnswers();
     },
-    [addAnswer],
+    [addAnswer, fetchAnswers],
   );
 
   const handleEdit = React.useCallback(
@@ -72,23 +82,38 @@ const Topics = () => {
     }
   }, [fetchTopics, topics]);
 
+  React.useEffect(() => {
+    fetchAnswers();
+  }, [fetchAnswers]);
+
   return (
     <Box display="flex" flexGrow={1}>
-      {status === statuses.PROCESSING && (
+      {isTopicsFetching === statuses.PROCESSING && (
         <Box className={classes.loader}>
           <CircularLoader />
         </Box>
       )}
 
-      {status === statuses.SUCCESS && (
+      {isTopicsFetching === statuses.SUCCESS && (
         <Grid container>
-          {topics.map(({ id, title }) => (
-            <Grid key={id} item xs={12} sm={6} lg={3} xl={2}>
-              <Box p={2}>
-                <Topic topicId={id} title={title} onAnswer={handleAnswer} onDelete={handleDelete} onEdit={handleEdit} />
-              </Box>
-            </Grid>
-          ))}
+          {topics.map(({ id, title }) => {
+            const topicAnswer = answers?.find(answer => answer.topicId === id);
+            return (
+              <Grid key={id} item xs={12} sm={6} lg={3} xl={2}>
+                <Box p={2}>
+                  <Topic
+                    topicId={id}
+                    title={title}
+                    answer={topicAnswer?.answer}
+                    isAnswersFetching={isAnswersFetching === statuses.PROCESSING}
+                    onAnswer={handleAnswer}
+                    onDelete={handleDelete}
+                    onEdit={handleEdit}
+                  />
+                </Box>
+              </Grid>
+            );
+          })}
         </Grid>
       )}
 
