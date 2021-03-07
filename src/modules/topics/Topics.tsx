@@ -55,10 +55,16 @@ const Topics = () => {
 
   const handleAnswer = React.useCallback(
     async (topicId: string, answer: boolean) => {
-      await addAnswer(topicId, answer);
-      fetchAnswers();
+      try {
+        const response = await addAnswer(topicId, answer);
+        if (response.status === 200) {
+          setAnswers(response.data);
+        }
+      } catch (e) {
+        console.log("fuck");
+      }
     },
-    [addAnswer, fetchAnswers],
+    [addAnswer],
   );
 
   const handleEdit = React.useCallback(

@@ -17,12 +17,12 @@ export interface Api {
       email: string;
       password: string;
     }) => Promise<AxiosResponse<{ accessToken?: string }>>;
-    signUp: ({ email, password }: { email: string; password: string }) => Promise<AxiosResponse<{ data: string }>>;
+    signUp: ({ email, password }: { email: string; password: string }) => Promise<AxiosResponse>;
   };
 
   users: {
-    getUsers: () => Promise<AxiosResponse<{ data: User[] }>>;
+    getUsers: () => Promise<AxiosResponse<User[]>>;
     getAnswers: () => Promise<AxiosResponse<TopicAnswer[]>>;
-    addTopicAnswer: (topicId: string, answer: boolean) => Promise<AxiosResponse<{ data: TopicAnswer[] }>>;
+    addTopicAnswer: (topicId: string, answer: boolean) => Promise<AxiosResponse<TopicAnswer[]>>;
   };
 }
