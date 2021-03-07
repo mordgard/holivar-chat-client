@@ -24,15 +24,18 @@ const useStyles = makeStyles({
 interface Props {
   topicId: string;
   title: string;
+  answer?: boolean;
+  isAnswersFetching: boolean;
   description?: string;
   onAnswer: (topicId: string, answer: boolean) => void;
   onDelete: (topicId: string) => void;
   onEdit: (topicId: string) => void;
 }
 
-const Topic = ({ topicId, title, description, onAnswer, onDelete, onEdit }: Props) => {
+const Topic = ({ topicId, title, answer, isAnswersFetching, description, onAnswer, onDelete, onEdit }: Props) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const subheader = answer === undefined ? "Do you agree?" : `Your answer is ${answer ? "YES" : "NO"}`;
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -51,7 +54,7 @@ const Topic = ({ topicId, title, description, onAnswer, onDelete, onEdit }: Prop
             <MoreIcon />
           </IconButton>
         }
-        subheader="Do you agree?"
+        subheader={subheader}
       />
       <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
         <MenuItem onClick={() => onEdit(topicId)}>
@@ -75,10 +78,22 @@ const Topic = ({ topicId, title, description, onAnswer, onDelete, onEdit }: Prop
         )}
       </CardContent>
       <CardActions>
-        <Button onClick={() => onAnswer(topicId, false)} size="medium" variant="contained">
+        <Button
+          onClick={() => onAnswer(topicId, false)}
+          color="secondary"
+          size="medium"
+          variant="contained"
+          disabled={answer !== undefined || isAnswersFetching}
+        >
           No
         </Button>
-        <Button onClick={() => onAnswer(topicId, true)} size="medium" variant="contained">
+        <Button
+          onClick={() => onAnswer(topicId, true)}
+          color="secondary"
+          size="medium"
+          variant="contained"
+          disabled={answer !== undefined || isAnswersFetching}
+        >
           Yes
         </Button>
       </CardActions>

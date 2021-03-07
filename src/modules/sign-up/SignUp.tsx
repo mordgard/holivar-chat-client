@@ -8,7 +8,7 @@ import { useDialog } from "../dialog";
 import { DialogForm } from "../../components/dialog-form";
 
 const SignUp = () => {
-  const { dialogName, closeDialog } = useDialog();
+  const { closeDialog } = useDialog();
   const { run, status } = useAsync(
     async ({ email, password }: { email: string; password: string }) => await api.auth.signUp({ email, password }),
   );
@@ -32,7 +32,7 @@ const SignUp = () => {
   );
 
   return (
-    <Dialog open={dialogName === "sign-up"} onClose={closeDialog} aria-labelledby="form-dialog-title">
+    <Dialog open={true} onClose={closeDialog} aria-labelledby="form-dialog-title">
       <DialogForm
         onSubmit={handleSubmit}
         onClose={closeDialog}

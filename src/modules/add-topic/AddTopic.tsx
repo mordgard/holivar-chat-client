@@ -10,7 +10,7 @@ import { Topic } from "types";
 import { useTopics } from "../topics";
 
 const AddTopic = () => {
-  const { dialogName, closeDialog } = useDialog();
+  const { closeDialog } = useDialog();
   const [title, setTitle] = React.useState<string>("");
   const [description, setDescription] = React.useState<string>("");
   const { fetchTopics } = useTopics();
@@ -33,7 +33,7 @@ const AddTopic = () => {
   );
 
   return (
-    <Dialog open={dialogName === "add-topic"} onClose={closeDialog} aria-labelledby="form-dialog-title">
+    <Dialog open={true} onClose={closeDialog} aria-labelledby="form-dialog-title">
       <DialogForm onSubmit={handleSubmit} onClose={closeDialog} status={status} title="Add Topic">
         <>
           <TextField
